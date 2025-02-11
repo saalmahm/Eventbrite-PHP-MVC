@@ -1,0 +1,15 @@
+{
+    "name": "youco/eventbrite",
+    "autoload": {
+        "psr-4": {
+            "Youco\\Eventbrite\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "salma hamdi",
+            "email": "saalmahm51@gmail.com"
+        }
+    ],
+    "require": {}
+}
