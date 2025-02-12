@@ -1,14 +1,14 @@
 {
-    "name": "youco/eventbrite",
+    "name": "youcode/you-event",
     "autoload": {
         "psr-4": {
-            "Youco\\Eventbrite\\": "src/"
+            "Youcode\\YouEvent\\": "src/"
         }
     },
     "authors": [
         {
-            "name": "mohammed elmostaine",
-            "email": "mohammedelmostaine@gmail.com"
+            "name": "salma hamdi",
+            "email": "saalmahm51@gmail.com"
         }
     ],
     "require": {
