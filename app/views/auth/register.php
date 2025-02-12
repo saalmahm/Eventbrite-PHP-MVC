@@ -8,7 +8,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
     <link rel="icon" type="image/x-icon" href="../assets/images/favicon.svg">
-    <script src="../../../public/assets/scripts/register.js"></script>
+    <script src="../../../public/assets/js/register.js"></script>
 
 </head>
 <style>
@@ -69,7 +69,7 @@
                         class="w-full pl-12 pr-4 py-2 border border-gray-100 rounded-lg bg-white/10 text-black placeholder-gray-100 focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-orange-400" />
                 </div>
 
-                <button type="submit" name="submit"
+                <button type="submit" name="register_button"
                     class="w-full py-2 bg-orange-400 text-white font-semibold rounded-lg transition duration-200 hover:bg-white hover:border hover:border-orange-400 hover:text-orange-400">
                     S'inscrire
                 </button>
