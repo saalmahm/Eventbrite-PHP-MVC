@@ -1,8 +1,8 @@
 {
-    "name": "youco/eventbrite",
+    "name": "youcode/you-event",
     "autoload": {
         "psr-4": {
-            "Youco\\Eventbrite\\": "src/"
+            "Youcode\\YouEvent\\": "src/"
         }
     },
     "authors": [

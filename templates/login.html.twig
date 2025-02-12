@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connexion - YouEvent</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
+</head>
+
+<body>
+    <section class="hero bg-orange-500/5 h-screen flex-grow flex justify-center items-center bg-[url('{{ base_url }}assets/images/loginbg.jpg')] bg-cover bg-center">
+
+        <div class="bg-white/10 backdrop-blur-sm rounded-lg p-8 md:shadow-lg w-full max-w-md">
+            <h2 class="text-white text-center text-3xl font-semibold mb-6">Se connecter</h2>
+
+            <form method="post" action="/login">
+                <div class="relative mb-4">
+                    <i class="ri-mail-line text-gray-100 absolute left-4 top-2 text-xl"></i>
+                    <input type="email" placeholder="Email" name="email" required
+                        class="w-full pl-12 pr-4 py-2 border border-gray-100 rounded-lg bg-white/10 text-gray-100 placeholder-gray-100" />
+                </div>
+
+                <div class="relative mb-4">
+                    <i class="ri-lock-line text-gray-100 absolute left-4 top-2 text-xl"></i>
+                    <input type="password" placeholder="Mot de passe" name="password" required
+                        class="w-full pl-12 pr-4 py-2 border border-gray-100 rounded-lg bg-white/10 text-gray-100 placeholder-gray-100" />
+                </div>
+
+                <button type="submit"
+                    class="w-full py-2 bg-white hover:bg-black text-orange-400 font-semibold rounded-lg transition duration-200">
+                    Connexion
+                </button>
+
+                {% if errorMessage is not empty %}
+                    <p class="text-red-500 text-center mt-4">{{ errorMessage }}</p>
+                {% endif %}
+            </form>
+
+            <p class="text-center text-gray-100 mt-4">
+                Pas encore inscrit ? <a href="/register" class="text-white hover:underline">Créer un compte</a>
+            </p>
+        </div>
+    </section>
+</body>
+</html>

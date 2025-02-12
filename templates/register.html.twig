@@ -7,23 +7,21 @@
     <title>Inscription - YouEvent</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
-    <link rel="icon" type="image/x-icon" href="../assets/images/favicon.svg">
-    <script src="../../../public/assets/js/register.js"></script>
+    <script src="{{ base_url }}/assets/scripts/register.js"></script>
 
 </head>
 <style>
     .selected-role {
-    border-color: black !important;
-    color: black !important;
-    font-weight: bold;
-}
-
+        border-color: black !important;
+        color: black !important;
+        font-weight: bold;
+    }
 </style>
 
 <body>
-    
+
     <section
-        class="hero bg-orange-500/5 h-screen flex-grow flex justify-center items-center border-orange-400 bg-opacity-20 bg-[url('../../../public/assets/images/loginbg.jpg')] bg-cover bg-center">
+        class="hero bg-orange-500/5 h-screen flex-grow flex justify-center items-center border-orange-400 bg-opacity-20 bg-[url('{{ base_url }}assets/images/loginbg.jpg')] bg-cover bg-center">
         <div class="bg-white/10 backdrop-blur-lg rounded-lg p-8 md:shadow-lg w-full max-w-md">
             <h2 class="text-white text-center text-3xl font-semibold mb-6">Inscription</h2>
             <form method="post" id="registerForm" enctype="multipart/form-data">
@@ -75,9 +73,9 @@
                 </button>
 
                 <div class="errorsContainer">
-                    <?php if (!empty($error)): ?>
-                        <p class="text-red-600 text-center mt-4"><?php echo htmlspecialchars($error); ?></p>
-                    <?php endif; ?>
+                    {% if errorMessage is not empty %}
+                    <p class="text-red-600 text-center mt-4">{{ errorMessage }}</p>
+                    {% endif %}
                 </div>
             </form>
 
