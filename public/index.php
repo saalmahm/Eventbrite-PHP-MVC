@@ -18,3 +18,12 @@ $template = 'register.html.twig';
 echo $twig->render('register.html.twig', ['base_url' => './public/']);
 
 
+// use App\Core\Router;
+
+// $router = new Router();
+
+// // Include routes
+// require_once __DIR__ . '/../config/routes.php';
+
+// // Dispatch the router
+// $router->dispatch();
