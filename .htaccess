@@ -1,0 +1,28 @@
+RewriteEngine On
+# Ensure the base directory is considered in the rewrites
+RewriteBase /Eventbrite-PHP-MVC/
+
+# If the URL is empty (accessing the root), set default route to home
+RewriteRule ^$ /Eventbrite-PHP-MVC/public/index.php?route=home [L,QSA]
+
+# Allow direct access to the 'uploads' directory
+RewriteRule ^uploads/ - [L]
+
+# If the requested file or directory does not exist
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# Otherwise, pass the request as a route parameter
+RewriteRule ^(.*)$ /Eventbrite-PHP-MVC/public/index.php?route=$1 [L,QSA]
+
+# Handle Authorization Header
+RewriteCond %{HTTP:Authorization} .
+RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
+Redirect Trailing Slashes If Not A Folder
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_URI} (.+)/$
+RewriteRule ^ %1 [L,R=301]
+
+# Prevent directory listing
+Options -Indexes
