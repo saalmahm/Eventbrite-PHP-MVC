@@ -11,5 +11,7 @@
             "email": "saalmahm51@gmail.com"
         }
     ],
-    "require": {}
+    "require": {
+        "twig/twig": "^3.19"
+    }
 }
