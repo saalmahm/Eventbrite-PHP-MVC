@@ -1,15 +1,17 @@
 {
-    "name": "youco/eventbrite",
+    "name": "youcode/you-event",
     "autoload": {
         "psr-4": {
-            "Youco\\Eventbrite\\": "src/"
+            "Youcode\\YouEvent\\": "src/"
         }
     },
     "authors": [
         {
-            "name": "salma hamdi",
-            "email": "saalmahm51@gmail.com"
+            "name": "Yassir Zbida",
+            "email": "zbidayassir10@gmail.com"
         }
     ],
-    "require": {}
+    "require": {
+        "twig/twig": "^3.19"
+    }
 }
