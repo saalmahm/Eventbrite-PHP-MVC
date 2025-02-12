@@ -43,7 +43,7 @@ abstract class User {
         return $this->phone;
     }
 
-    // Setters
+    // Setterss
     public function setUsername($username) {
         $this->username = $username;
     }
