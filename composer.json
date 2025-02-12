@@ -7,9 +7,11 @@
     },
     "authors": [
         {
-            "name": "salma hamdi",
-            "email": "saalmahm51@gmail.com"
+            "name": "mohammed elmostaine",
+            "email": "mohammedelmostaine@gmail.com"
         }
     ],
-    "require": {}
+    "require": {
+        "twig/twig": "^3.19"
+    }
 }
