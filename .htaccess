@@ -19,6 +19,7 @@ RewriteRule ^(.)$ /YouEvent/public/index.php?route=$1 [L,QSA]
 RewriteCond %{HTTP:Authorization} .
 RewriteRule . - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
 
+
 # Redirect Trailing Slashes If Not A Folder
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_URI} (.+)/$
