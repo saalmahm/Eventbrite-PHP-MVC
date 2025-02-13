@@ -4,7 +4,7 @@ RewriteEngine On
 RewriteBase /YouEvent/
 
 # Si l'URL est vide (accès à la racine), rediriger vers home
-RewriteRule ^$ /YouEvent/public/index.php?route=home [L,QSA]
+RewriteRule ^$ /YouEvent/public/index.php?route=/ [L,QSA]
 
 # Permet l'accès direct au dossier 'uploads'
 RewriteRule ^uploads/ - [L]
