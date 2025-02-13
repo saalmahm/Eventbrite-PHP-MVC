@@ -2,7 +2,8 @@
     "name": "youcode/you-event",
     "autoload": {
         "psr-4": {
-            "Youcode\\YouEvent\\": "src/"
+            "App\\": "app/",
+            "Core\\": "core/"
         }
     },
     "authors": [

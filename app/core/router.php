@@ -1,7 +1,8 @@
 <?php
 
 namespace App\Core;
-
+use Twig\Environment;
+use Twig\Loader\FilesystemLoader;
 class Router {
     private array $routes = [];
     private array $middlewares = [];
@@ -55,8 +56,21 @@ class Router {
             }
         }
 
-        throw new \Exception('Route not found', 404);
+        // If no route matched, render the 404 page
+        $this->render404();  
     }
+
+    private function render404(): void {
+        header("HTTP/1.1 404 Not Found");
+
+        $loader = new FilesystemLoader(__DIR__ . '/../../templates');
+        $twig = new Environment($loader);
+
+        echo $twig->render('404.html.twig', ['base_url' => '/YouEvent/public/']);
+
+        exit();  
+    }
+    
 
     private function matchRoute(string $routePath, string $requestPath): bool {
         $routePath = trim($routePath, '/');
@@ -103,3 +117,4 @@ class Router {
         return $params;
     }
 }
+
