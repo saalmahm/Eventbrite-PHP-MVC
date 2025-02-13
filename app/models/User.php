@@ -1,7 +1,9 @@
 <?php 
 namespace App\Models;
-require_once __DIR__ . '../../config/database.php';  
+require_once __DIR__ . '/../../config/Database.php';
 
+use Config\Database;
+use PDO;
 
 abstract class User{
     protected int $idUser;
@@ -11,13 +13,13 @@ abstract class User{
     protected string $phone;
     protected string $image;
 
-    public function __construct(int $idUser,string $username,string $email,string $password,string $role,string $image) {
+    public function __construct(int $idUser,string $username,string $email,string $password,string $image, string $phone) {
         $this->idUser = $idUser;
         $this->username = $username;
         $this->email = $email;
         $this->password = $password;
-        $this->role = $role;
         $this->image = $image ;  
+        $this->phone = $phone;
       }
 
     public function getIdUser(): int
@@ -38,11 +40,6 @@ abstract class User{
     public function getPassword(): string
     {
         return $this->password;
-    }
-
-    public function getRole(): string
-    {
-        return $this->role;
     }
 
     public function getImage(): string
@@ -66,10 +63,7 @@ abstract class User{
         $this->password = $password;
     }
 
-    public function setRole(string $role): void
-    {
-        $this->role = $role;
-    }
+
 
     
     public function setImage(string $image): void
@@ -80,35 +74,36 @@ abstract class User{
     public static function login(string $email, string $password): ?User {
         $conn = Database::getConnection();  
     
-        $sql = "SELECT * FROM Utilisateur WHERE email = ?";
+        $sql = "SELECT * FROM users WHERE email = ?";
         $stmt = $conn->prepare($sql);
         $stmt->execute([$email]);
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
-    
-        if ($user && password_verify($password, $user['motdepasse'])) {
+        $phone = $user['phone'] ?? '';
+        if ($user && password_verify($password, $user['password'])) {
             $id = $user['iduser'];
     
-            $stmt = $conn->prepare("SELECT id FROM admin WHERE id = ?");
+            $stmt = $conn->prepare("SELECT iduser FROM admin WHERE iduser = ?");
             $stmt->execute([$id]);
             if ($stmt->fetch()) {
-                return new Admin($user['iduser'], $user['nom'], $user['email'], $user['motdepasse'], $user['image']);
+                return new Admin($user['iduser'], $user['username'], $user['email'],"", $user['image'],$phone);
             }
     
-            $stmt = $conn->prepare("SELECT id FROM participant WHERE id = ?");
+            $stmt = $conn->prepare("SELECT iduser FROM participant WHERE iduser = ?");
             $stmt->execute([$id]);
             if ($stmt->fetch()) {
-                return new Participant($user['iduser'], $user['nom'], $user['email'], $user['motdepasse'], $user['image']);
+                return new Participant($user['iduser'], $user['username'], $user['email'],"", $user['image'],$phone);
             }
     
-            $stmt = $conn->prepare("SELECT id FROM organisateur WHERE id = ?");
+            $stmt = $conn->prepare("SELECT iduser FROM organisateur WHERE iduser = ?");
             $stmt->execute([$id]);
             if ($stmt->fetch()) {
-                return new Organisateur($user['iduser'], $user['nom'], $user['email'], $user['motdepasse'], $user['image']);
+                return new Organisateur($user['iduser'], $user['username'], $user['email'], "", $user['image'],$phone);
             }
         }
     
         return null;
     }
+    
     
  
     
@@ -116,7 +111,7 @@ abstract class User{
     public static function isEmailTaken(string $email): bool {
         $conn = Database::getConnection();  
 
-        $sql = "SELECT email FROM Utilisateur WHERE email = ?";
+        $sql = "SELECT email FROM users WHERE email = ?";
         $stmt = $conn->prepare($sql);
 
         $stmt->bindValue(1, $email, PDO::PARAM_STR);
@@ -131,19 +126,26 @@ abstract class User{
 
     public static function register($name, $email, $password, $role) {
         $conn = Database::getConnection();  
-
-        $defaultImage = "../../public/assets/images/userProfiles/profiledefault.jpg";
-        $sql = "INSERT INTO Utilisateur (nom, email, motDePasse , role,image) VALUES (?, ?, ?, ?, ?)";
+    
+        $defaultImage = "../../public/assets/images/profil/profiledefault.jpg";
+    
+        if ($role === 'participant') {
+            $sql = "INSERT INTO participant (username, email, password, image) VALUES (?, ?, ?, ?)";
+        } elseif ($role === 'organisateur') {
+            $sql = "INSERT INTO organisateur (username, email, password, image) VALUES (?, ?, ?, ?)";
+        } else {
+            throw new Exception("Invalid role: $role");
+        }
+    
         $stmt = $conn->prepare($sql);
-
         $stmt->bindValue(1, $name, PDO::PARAM_STR);
         $stmt->bindValue(2, $email, PDO::PARAM_STR);
         $stmt->bindValue(3, password_hash($password, PASSWORD_BCRYPT), PDO::PARAM_STR);
-        $stmt->bindValue(4, $role, PDO::PARAM_STR);
-        $stmt->bindValue(5, $defaultImage, PDO::PARAM_STR); 
-
+        $stmt->bindValue(4, $defaultImage, PDO::PARAM_STR);
+    
         return $stmt->execute();
     }
+    
 
     }
     
