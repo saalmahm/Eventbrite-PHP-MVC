@@ -1,5 +1,6 @@
 <?php
-
+namespace App\Models;
+use App\Models\User;
 
 class Participant extends User {
     private $billets_reserves = [];
