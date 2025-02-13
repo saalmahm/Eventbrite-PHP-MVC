@@ -7,7 +7,7 @@
     <title>Inscription - YouEvent</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
-    <script src="{{ base_url }}/assets/scripts/register.js"></script>
+    <script src="{{ base_url }}/assets/js/register.js"></script>
 
 </head>
 <style>
@@ -71,17 +71,22 @@
                     class="w-full py-2 bg-orange-400 text-white font-semibold rounded-lg transition duration-200 hover:bg-white hover:border hover:border-orange-400 hover:text-orange-400">
                     S'inscrire
                 </button>
+                    <div class="errorsContainer">
+                        {% if error_message is not empty %}
+                            <p class="text-white bg-red-600 p-2 font-semibold mt-4 rounded-md text-center text-sm">{{ error_message }}</p>
+                        {% endif %}
+                    </div>
 
-                <div class="errorsContainer">
-                    {% if errorMessage is not empty %}
-                    <p class="text-red-600 text-center mt-4">{{ errorMessage }}</p>
-                    {% endif %}
-                </div>
+
+
+
+
+
             </form>
 
             <p class="text-center text-gray-100 mt-4">
                 Vous avez déjà un compte ?
-                <a href="./login.php" class="text-white hover:underline">Connexion</a>
+                <a href="login" class="text-white hover:underline">Connexion</a>
             </p>
         </div>
     </section>
