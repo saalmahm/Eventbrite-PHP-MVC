@@ -1,3 +1,4 @@
-
 /vendor/
-/config/databse.php/
+/config/Databse.php/
+/composer.lock/
+/composer.json/
