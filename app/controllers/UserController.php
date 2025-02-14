@@ -4,6 +4,7 @@ namespace App\Controllers;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
 use App\Models\User;
+use App\Models\Event;
 
 
 class UserController {
@@ -34,7 +35,6 @@ class UserController {
             }
         }
     }
-
     public function loginUser(): void {
         if (isset($_POST['login_button'])) {
             $email = trim($_POST['email']);
@@ -66,8 +66,6 @@ class UserController {
         }
     }
     
-    
-
     public function showLogin() {
         echo $this->twig->render('login.html.twig', ['base_url' => '/YouEvent/public/']);
     }
@@ -75,7 +73,107 @@ class UserController {
     public function showHome() {
         echo $this->twig->render('home.html.twig', ['base_url' => '/YouEvent/public/']);
     }
-    public function showRegistre() {
+    
+    public function showRegister() {
         echo $this->twig->render('register.html.twig', ['base_url' => '/YouEvent/public/']);
     }
+
+    public function showAddEvent() {
+        echo $this->twig->render('add_event.html.twig', ['base_url' => '/YouEvent/public/']);
+    }
+
+    public function addEvent() {
+        if (isset($_POST['add_event_button'])) {
+            $titre = trim($_POST['title'] ?? '');
+            $intro = trim($_POST['intro'] ?? '');
+            $description = trim($_POST['description'] ?? '');
+            $date = $_POST['date'] ?? '';
+            $status = 'en attente';
+            $lieu = trim($_POST['location'] ?? '');
+            $capacite = trim($_POST['capacity'] ?? '');
+            $category = trim($_POST['category'] ?? '');
+            $organisateur = trim($_POST['organizer'] ?? '');
+
+            if (empty($titre) || empty($intro) || empty($description) || empty($date) || empty($status) || empty($lieu) || empty($capacite) || empty($category) || empty($organisateur)) {
+                echo $this->twig->render('add_event.html.twig', [
+                    'base_url' => '/YouEvent/public/',
+                    'error_message' => 'Tous les champs sont obligatoires.'
+                ]);
+                return;
+            } else {
+                $event = new Event(null, $titre, $intro, $description, $date, $status, $lieu, $capacite, $category, $organisateur);
+                $result = $event->creer();
+                if ($result['success']) {
+                    header('Location: events');
+                    exit;
+                } else {
+                    echo $this->twig->render('add_event.html.twig', [
+                        'base_url' => '/YouEvent/public/',
+                        'error_message' => $result['message']
+                    ]);
+                }
+            }
+        }
+    }
+
+    public function editEvent() {
+        if (isset($_POST['edit_event_button'])) {
+            $eventId = $_POST['event_id'] ?? null;
+            $titre = trim($_POST['title'] ?? '');
+            $intro = trim($_POST['intro'] ?? '');
+            $description = trim($_POST['description'] ?? '');
+            $date = $_POST['date'] ?? '';
+            $status = trim($_POST['status'] ?? '');
+            $lieu = trim($_POST['location'] ?? '');
+            $capacite = trim($_POST['capacity'] ?? '');
+            $category = trim($_POST['category'] ?? '');
+            $organisateur = trim($_POST['organizer'] ?? '');
+
+            if (empty($eventId) || empty($titre) || empty($intro) || empty($description) || empty($date) || empty($status) || empty($lieu) || empty($capacite) || empty($category) || empty($organisateur)) {
+                echo $this->twig->render('edit_event.html.twig', [
+                    'base_url' => '/YouEvent/public/',
+                    'error_message' => 'Tous les champs sont obligatoires.'
+                ]);
+                return;
+            } else {
+                $event = new Event($eventId, $titre, $intro, $description, $date, $status, $lieu, $capacite, $category, $organisateur);
+                $result = $event->modifier();
+                if ($result['success']) {
+                    header('Location: events');
+                    exit;
+                } else {
+                    echo $this->twig->render('edit_event.html.twig', [
+                        'base_url' => '/YouEvent/public/',
+                        'error_message' => $result['message']
+                    ]);
+                }
+            }
+        }
+    }
+    public function deleteEvent() {
+        if (isset($_POST['delete_event_button'])) {
+            $eventId = $_POST['event_id'] ?? null;
+            if ($eventId) {
+                $event = new Event($eventId);
+                $result = $event->supprimer();
+                if ($result['success']) {
+                    header('Location: events');
+                    exit;
+                } else {
+                    echo $this->twig->render('events.html.twig', [
+                        'base_url' => '/YouEvent/public/',
+                        'error_message' => $result['message']
+                    ]);
+                }
+            } else {
+                echo $this->twig->render('events.html.twig', [
+                    'base_url' => '/YouEvent/public/',
+                    'error_message' => 'Event ID is missing.'
+                ]);
+            }
+        }
+    }
+
+
+
 }
