@@ -1,10 +1,13 @@
 <?php
+namespace App\Models;
 
-use App\Config\Database;
+require_once __DIR__ . '/../../config/Database.php';
+
+use Config\Database;
 use PDO;
 use PDOException;
 
-class Evenement {
+class Event {
     private $idEvent;
     private $titre;
     private $intro;
@@ -133,6 +136,13 @@ class Evenement {
     }
 
     public function supprimer() {
+        if ($this->idEvent === null) {
+            return [
+                'success' => false,
+                'message' => 'ID de l\'événement non spécifié'
+            ];
+        }
+
         try {
             $conn = Database::getConnection();
             $query = "DELETE FROM evenement WHERE idEvent = :idEvent";

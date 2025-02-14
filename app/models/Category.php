@@ -1,7 +1,7 @@
 <?php
 namespace App\Models;
 
-use App\Config\Database;
+use Config\Database;
 use PDO;
 use PDOException;
 
@@ -121,4 +121,3 @@ class Category {
         }
     }
 }
-?>
