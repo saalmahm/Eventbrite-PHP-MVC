@@ -1,11 +1,4 @@
-<<<<<<< Updated upstream
 /vendor/
-/config/Databse.php/
+/config/databse.php/
 /composer.lock/
 /composer.json/
-=======
-/vendor/
-/config/Databse.php/
-/composer.lock/
-/composer.json/
->>>>>>> Stashed changes
