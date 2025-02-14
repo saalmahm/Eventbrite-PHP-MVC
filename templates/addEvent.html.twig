@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ajoute Un Événement | YouEvent</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="{{ base_url }}/assets/js/addEvent.js" defer></script>
+
+    <style>
+        .sidebar-collapsed {
+            width: 5rem;
+        }
+
+        .sidebar-expanded {
+            width: 16rem;
+        }
+
+        .transition-width {
+            transition: width 0.3s ease-in-out;
+        }
+
+        .sidebar-collapsed .nav-text {
+            display: none;
+        }
+
+        .sidebar-collapsed .logo-full {
+            display: none;
+        }
+
+        .sidebar-expanded .logo-icon {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar-expanded {
+                position: fixed;
+                z-index: 50;
+                height: 100vh;
+            }
+
+            .sidebar-collapsed {
+                width: 0;
+                overflow: hidden;
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50">
+    <div class="flex h-screen">
+        <!-- Sidebar -->
+        <aside id="sidebar"
+            class="sidebar-expanded transition-width bg-white border-r border-gray-200 flex flex-col shadow-lg">
+            <div class="p-4 border-b border-gray-200 flex justify-between items-center">
+                <img src="../public/assets/images/logo.svg" alt="YouEvent Logo" class="h-12 logo-full">
+                <img src="../public/assets/images/logo.svg" alt="YouEvent" class="h-12 logo-icon hidden">
+                <button id="toggleSidebar" class="p-2 rounded-lg hover:bg-gray-100 text-gray-500">
+                    <i class="ri-arrow-left-s-line"></i>
+                    <i class="ri-sidebar-fold-line"></i>
+                    <i class="ri-sidebar-fold-line text-black bg-red-600"></i>
+                </button>
+            </div>
+            <nav class="flex-1 overflow-y-auto py-4">
+                <ul class="space-y-2 px-3">
+                    <li>
+                        <a href="dashbord"
+                            class="flex items-center px-4 py-3 text-orange-500 bg-orange-50 rounded-lg group">
+                            <i class="ri-dashboard-line text-xl"></i>
+                            <span class="ml-3 nav-text">Tableau de bord</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="evenements"
+                            class="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-50 rounded-lg group">
+                            <i class="ri-calendar-event-line text-xl"></i>
+                            <span class="ml-3 nav-text">Événements</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="promotion"
+                            class="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-50 rounded-lg group">
+                            <i class="ri-megaphone-line text-xl"></i>
+                            <span class="ml-3 nav-text">Promotion</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="contacts"
+                            class="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-50 rounded-lg group">
+                            <i class="ri-contacts-book-line text-xl"></i>
+                            <span class="ml-3 nav-text">Liste de contacts</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="#" class="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-50 rounded-lg group">
+                            <i class="ri-file-chart-line text-xl"></i>
+                            <span class="ml-3 nav-text">Rapports</span>
+                        </a>
+                    </li>
+
+                </ul>
+            </nav>
+            <div class="p-4 border-t border-gray-200">
+                <div class="flex items-center">
+                    <img src="../public/assets/images/profil/avatar.svg" alt="Profile" class="w-8 h-8 rounded-full">
+                    <div class="ml-3 nav-text">
+                        <p class="text-sm font-medium text-gray-700">Jean Dupont</p>
+                        <p class="text-xs text-gray-500">Organisateur</p>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <div class="flex-1 flex flex-col overflow-hidden">
+            <header class="bg-white border-b border-gray-200 shadow-sm">
+                <div class="flex items-center justify-between px-4 py-4 sm:px-6">
+                    <div class="flex items-center">
+                        <button id="mobileMenuBtn"
+                            class="mr-2 text-gray-500 hover:text-gray-600 focus:outline-none focus:text-gray-600 md:hidden">
+                            <i class="ri-menu-line text-2xl"></i>
+                        </button>
+                        <div class="flex items-center space-x-4">
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-4">
+
+                        <button class="p-2 hover:bg-orange-400 rounded-full">
+                            <i class="ri-notification-3-line text-xl text-gray-600 hover:text-white"></i>
+                        </button>
+                        <button class="p-2 hover:bg-orange-400 rounded-full">
+                            <i class="ri-settings-4-line text-xl text-gray-600 hover:text-white"></i>
+                        </button>
+                    </div>
+                </div>
+            </header>
+
+            <main class="flex-1 overflow-y-auto bg-gray-50 p-4 sm:p-6">
+                <div class="max-w-7xl mx-auto">
+
+                    <form>
+                        <div class="space-y-6">
+                            <div class="">
+                                <label for="title" class="block text-md font-medium text-gray-700 ">Titre de
+                                    l'événement</label>
+                                <input type="text" id="title" name="title" required
+                                    class="mt-1 block w-full p-2 rounded-md border border-gray-200 shadow-sm ">
+                            </div>
+
+                            <div>
+                                <label for="category" class="block text-md font-medium text-gray-700">Catégorie</label>
+                                <select id="category" name="category" required
+                                    class="mt-1 block w-full rounded-md p-2 border border-gray-200 shadow-sm focus:border-orange-500 focus:ring-orange-500">
+                                    <option value="">Sélectionnez une catégorie</option>
+                                    <option value="music">Musique</option>
+                                    <option value="art">Art</option>
+                                    <option value="sports">Sports</option>
+                                    <option value="food">Gastronomie</option>
+                                    <option value="technology">Technologie</option>
+                                    <option value="business">Business</option>
+                                </select>
+                            </div>
+
+                            <div class="flex flex-col gap-2">
+                                <label for="image" class="block text-md font-medium text-gray-700">Image de
+                                    l'événement</label>
+                                <div class="border border-dashed border-orange-400 rounded-md p-4">
+                                    <label class="custom-file-upload flex justify-center items-center rounded-md">
+                                        <input type="file" id="image" name="image" class="hidden" required> 
+                                        <div class="text-center py-8">
+                                            <i class="ri-upload-cloud-line text-4xl text-orange-400 mb-2"></i>
+                                            <p class="text-sm text-gray-600">Cliquez pour télécharger ou glissez-déposez
+                                            </p>
+                                            <p class="text-xs text-gray-500 mt-1">PNG, JPG, GIF jusqu'à 10MB</p>
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label for="location" class="block text-md font-medium text-gray-700">Lieu</label>
+                                <input type="text" id="location" name="location" required
+                                    class="mt-1 block w-full p-2 border border-gray-200 rounded-md  shadow-sm focus:border-orange-500 focus:ring-orange-500">
+                            </div>
+
+                            <div>
+                                <label class="block text-md font-medium text-gray-700">Capacité et Tarification</label>
+                                <div class="mt-2 overflow-x-auto border border-gray-300 rounded-md">
+                                    <table
+                                        class="min-w-full bg-white border border-gray-300 border border-gray-200 rounded-md overflow-hidden">
+                                        <thead class="bg-gray-100">
+                                            <tr>
+                                                <th
+                                                    class="px-4 py-2 text-left text-sm font-medium text-gray-700 border">
+                                                    Type de billet</th>
+                                                <th
+                                                    class="px-4 py-2 text-left text-sm font-medium text-gray-700 border">
+                                                    Quantité</th>
+                                                <th
+                                                    class="px-4 py-2 text-left text-sm font-medium text-gray-700 border">
+                                                    Prix (€)</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="px-4 py-2 border">Gratuit</td>
+                                                <td class="px-4 py-2 border">
+                                                    <input type="number" id="gratuit_capacity" name="gratuit_capacity"
+                                                        min="1"
+                                                        class="w-full p-2 border rounded-md focus:border-orange-500 focus:ring-orange-500">
+                                                </td>
+                                                <td class="px-4 py-2 border text-center text-gray-500">—</td>
+                                            </tr>
+
+                                            <tr>
+                                                <td class="px-4 py-2 border">Early Bird</td>
+                                                <td class="px-4 py-2 border">
+                                                    <input type="number" id="earlybird_capacity"
+                                                        name="earlybird_capacity" min="1"
+                                                        class="w-full p-2 border rounded-md focus:border-orange-500 focus:ring-orange-500">
+                                                </td>
+                                                <td class="px-4 py-2 border">
+                                                    <input type="number" id="earlybird_price" name="earlybird_price"
+                                                        min="0" step="0.01"
+                                                        class="w-full p-2 border rounded-md focus:border-orange-500 focus:ring-orange-500">
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td class="px-4 py-2 border">Payant</td>
+                                                <td class="px-4 py-2 border">
+                                                    <input type="number" id="payant_capacity" name="payant_capacity"
+                                                        min="1"
+                                                        class="w-full p-2 border rounded-md focus:border-orange-500 focus:ring-orange-500">
+                                                </td>
+                                                <td class="px-4 py-2 border">
+                                                    <input type="number" id="payant_price" name="payant_price" min="0"
+                                                        step="0.01"
+                                                        class="w-full p-2 border rounded-md focus:border-orange-500 focus:ring-orange-500">
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td class="px-4 py-2 border">VIP</td>
+                                                <td class="px-4 py-2 border">
+                                                    <input type="number" id="vip_capacity" name="vip_capacity" min="1"
+                                                        class="w-full p-2 border rounded-md focus:border-orange-500 focus:ring-orange-500">
+                                                </td>
+                                                <td class="px-4 py-2 border">
+                                                    <input type="number" id="vip_price" name="vip_price" min="0"
+                                                        step="0.01"
+                                                        class="w-full p-2 border rounded-md focus:border-orange-500 focus:ring-orange-500">
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+
+
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label for="date" class="block text-md font-medium text-gray-700">Date</label>
+                                    <input type="date" id="date" name="date" required
+                                        class="mt-1 block p-2 border border-gray-200 w-full rounded-md  shadow-sm focus:border-orange-500 focus:ring-orange-500">
+                                </div>
+                                <div>
+                                    <label for="time" class="block text-md font-medium text-gray-700">Heure</label>
+                                    <input type="time" id="time" name="time" required
+                                        class="mt-1 block w-full rounded-md border border-gray-200 p-2 shadow-sm focus:border-orange-500 focus:ring-orange-500">
+                                </div>
+                            </div>
+
+                            <div>
+                                <label for="description"
+                                    class="block text-md font-medium text-gray-700">Description</label>
+                                <textarea id="description" name="description" rows="4" required
+                                    class="mt-1 block w-full rounded-md p-2 border border-gray-200 shadow-sm focus:border-orange-500 focus:ring-orange-500"></textarea>
+                            </div>
+
+                            <div class="flex justify-end">
+                                <button type="submit"
+                                    class="px-6 py-3 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors flex items-center text-sm font-medium">
+                                    <i class="ri-add-line mr-2"></i>
+                                    Créer l'Événement
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+            </main>
+        </div>
+    </div>
+
+</body>
+
+</html>
