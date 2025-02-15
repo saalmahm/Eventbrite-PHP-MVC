@@ -33,16 +33,30 @@ public function showEvenement(): void {
 }
 
 
-    public function showDetails($id) {
-        session_start(); 
-        $evenements = Evenement::getEventById($id);
-        echo $this->twig->render('details.html.twig', [
-            'base_url' => '/YouEvent/public/',
-            'evenements' => $evenements,
-            'current_page' => 'evenement',
-            'eventId' => $id
-        ]);
-    }
+public function showDetails($id) {
+    session_start(); 
+    $evenements = Evenement::getEventById($id);
+    $types = Evenement::getTypeTicket($id); 
+
+    $payantTicket = $types[0] ;
+    $vipTicket = $types[1];
+
+    $showLoginModal = !isset($_SESSION['user']) || empty($_SESSION['user']);
+
+    echo $this->twig->render('details.html.twig', [
+        'base_url' => '/YouEvent/public/',
+        'evenements' => $evenements,
+        'vipTicket' => $vipTicket,
+        'showLoginModal' => $showLoginModal,  
+        'payantTicket' => $payantTicket,
+        'current_page' => 'evenement',
+        'eventId' => $id
+    ]);
+}
+
+
+
+
     
     
     

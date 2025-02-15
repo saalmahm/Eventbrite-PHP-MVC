@@ -131,12 +131,23 @@ class Evenement {
         public static function getEventById(int $id): array
         {
             $conn = Database::getConnection();  
-            $sql = "SELECT * FROM evenement WHERE idevent = ?";
+            $sql = "SELECT * FROM evenement e JOIN ticket t ON e.idevent = t.idevent WHERE e.idevent = ?";
             $stmt = $conn->prepare($sql);
             $stmt->bindParam(1, $id, PDO::PARAM_INT);
             $stmt->execute();
             $evenement = $stmt->fetch(PDO::FETCH_ASSOC);
             return $evenement;
+        }
+
+        public static function getTypeTicket(int $id): array
+        {
+            $conn = Database::getConnection();  
+            $sql = "SELECT DISTINCT ON (t.type) t.type, e.*, t.* FROM evenement e JOIN ticket t ON e.idevent = t.idevent WHERE e.idevent = ?  AND t.type IN ('VIP', 'payant') ORDER BY t.type, t.idticket ASC;";
+            $stmt = $conn->prepare($sql);
+            $stmt->bindParam(1, $id, PDO::PARAM_INT);
+            $stmt->execute();
+            $type = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $type;
         }
 
   

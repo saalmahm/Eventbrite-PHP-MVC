@@ -1,8 +1,10 @@
 <?php
 
 namespace App\Core;
+
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
+
 class Router {
     private array $routes = [];
     private array $middlewares = [];
@@ -57,20 +59,21 @@ class Router {
         }
 
         // If no route matched, render the 404 page
-        $this->render404();  
+        $this->render404();
     }
 
     private function render404(): void {
         header("HTTP/1.1 404 Not Found");
 
-        $loader = new FilesystemLoader(__DIR__ . '/../../templates');
+        // Initialize Twig inside the render404 method
+        $loader = new FilesystemLoader(__DIR__ . '/../../templates'); // Adjust the path as needed
         $twig = new Environment($loader);
 
+        // Render the 404 page
         echo $twig->render('404.html.twig', ['base_url' => '/YouEvent/public/']);
 
-        exit();  
+        exit();  // Make sure to stop further execution after showing the 404 page
     }
-    
 
     private function matchRoute(string $routePath, string $requestPath): bool {
         $routePath = trim($routePath, '/');
@@ -80,15 +83,16 @@ class Router {
             return true;
         }
 
-        $routeSegments = $routePath ? explode('/', $routePath) : [];
-        $requestSegments = $requestPath ? explode('/', $requestPath) : [];
+        $routeSegments = explode('/', $routePath);
+        $requestSegments = explode('/', $requestPath);
 
         if (count($routeSegments) !== count($requestSegments)) {
             return false;
         }
 
         foreach ($routeSegments as $key => $segment) {
-            if (strpos($segment, ':') === 0) {
+            // Check for dynamic parameters (e.g. {id})
+            if (strpos($segment, '{') === 0 && strpos($segment, '}') !== false) {
                 continue;
             }
 
@@ -108,8 +112,9 @@ class Router {
         $requestSegments = explode('/', $requestPath);
 
         foreach ($routeSegments as $key => $segment) {
-            if (strpos($segment, ':') === 0) {
-                $paramName = substr($segment, 1);
+            // If the segment is a dynamic parameter (e.g. {id})
+            if (strpos($segment, '{') === 0 && strpos($segment, '}') !== false) {
+                $paramName = substr($segment, 1, -1); // Extract the param name without the curly braces
                 $params[$paramName] = $requestSegments[$key];
             }
         }
@@ -117,4 +122,3 @@ class Router {
         return $params;
     }
 }
-
