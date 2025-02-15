@@ -20,4 +20,16 @@ class AuthMiddleware {
             exit();
         }
     }
+    public static function checkUser($username) {
+        self::checkAuthentication();  
+
+        $user = unserialize($_SESSION['user']);
+
+        if ($user->getUsername() != $username) {
+            $_SESSION['error'] = "Accès non autorisé.";
+            header('Location: /');
+            exit();
+        }
+    }
+    
 }

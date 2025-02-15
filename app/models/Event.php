@@ -6,6 +6,7 @@ require_once __DIR__ . '/../../config/Database.php';
 use Config\Database;
 use PDO;
 use PDOException;
+use App\Models\Ticket;
 
 class Event {
     private $idEvent;
@@ -58,13 +59,18 @@ class Event {
     public function setOrganisateur($organisateur) { $this->organisateur = $organisateur; }
 
     // Méthodes CRUD
-    public function creer() {
+    public function creer($tickets = []) {
         try {
             $conn = Database::getConnection();
+            $conn->beginTransaction();
+
+            $categoryValue = is_array($this->category) ? implode(',', $this->category) : $this->category;
+            $organisateurValue = '1';
+
             $query = "INSERT INTO evenement 
-                (titre, intro, description, date, status, lieu, capacite, category, organisateur) 
-                VALUES (:titre, :intro, :description, :date, :status, :lieu, :capacite, :category, :organisateur)";
-            
+            (titre, intro, description, date, status, lieu, capacite, idcategory, idorganisateur) 
+            VALUES (:titre, :intro, :description, :date, :status, :lieu, :capacite ,:category, :organisateur)";
+
             $stmt = $conn->prepare($query);
             $stmt->execute([
                 ':titre' => $this->titre,
@@ -75,18 +81,31 @@ class Event {
                 ':lieu' => $this->lieu,
                 ':capacite' => $this->capacite,
                 ':category' => $this->category,
-                ':organisateur' => $this->organisateur
+                ':organisateur' => $this-> $organisateurValue
             ]);
             
-            $stmt->execute();
-            $this->idEvent = $conn->lastInsertId();
-            
-            return [
-                'success' => true,
-                'message' => 'Événement créé avec succès',
-                'idEvent' => $this->idEvent
-            ];
+            // $this->idEvent = $conn->lastInsertId();
+            // // Création des tickets
+            // foreach ($tickets as $ticketData) {
+            //     $quantity = $ticketData['capacity'] ;
+            //     for ($i = 1; $i <= $quantity; $i++) {
+            //         $ticket = new Ticket(null, $this->idEvent, $ticketData['type'], 'Disponible', $ticketData['prix']);
+            //         $result = $ticket->creer();
+            //         if (!$result['success']) {
+            //             throw new PDOException($result['message']);
+            //         }
+            //     }
+            // }
+
+            // $conn->commit();
+
+            // return [
+            //     'success' => true,
+            //     'message' => 'Événement créé avec succès',
+            //     'idEvent' => $this->idEvent
+            // ];
         } catch (PDOException $e) {
+            $conn->rollBack();
             return [
                 'success' => false,
                 'message' => 'Erreur lors de la création de l\'événement: ' . $e->getMessage()

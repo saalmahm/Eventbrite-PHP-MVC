@@ -8,10 +8,14 @@ use App\Controllers\UserController;
 $router->get('/', [UserController::class, 'showHome']);
 $router->get('/login', [UserController::class, 'showLogin']);
 $router->get('/register', [UserController::class, 'showRegistre']);
+$router->get('/dashboard/addEvent/', [UserController::class,'showAddEvent']);
+$router->get('/dashboard/addEvent/', [UserController::class,'showAddEvent']);
 
 // POST routes
 $router->post('/register', [UserController::class, 'registerUser']);
 $router->post('/login', [UserController::class, 'loginUser']);
+$router->post('/dashboard/addEvent/', [UserController::class,'addEvent'] );
+
 
 
 

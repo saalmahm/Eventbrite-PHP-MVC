@@ -120,4 +120,18 @@ class Category {
             return false;
         }
     }
+    public static function findIdByName($name) {
+        try {
+            $conn = Database::getConnection();
+            $query = "SELECT id_category FROM categories WHERE name = :name LIMIT 1";
+            $stmt = $conn->prepare($query);
+            $stmt->bindParam(':name', $name);
+            $stmt->execute();
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $row ? $row['id_category'] : null;
+        } catch (PDOException $e) {
+            error_log("Find ID by Name Error: " . $e->getMessage());
+            return null;
+        }
+    }
 }

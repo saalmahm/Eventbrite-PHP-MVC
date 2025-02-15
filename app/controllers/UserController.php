@@ -79,39 +79,69 @@ class UserController {
     }
 
     public function showAddEvent() {
-        echo $this->twig->render('add_event.html.twig', ['base_url' => '/YouEvent/public/']);
+        echo $this->twig->render('addEvent.html.twig', ['base_url' => '/YouEvent/public/']);
     }
 
     public function addEvent() {
-        if (isset($_POST['add_event_button'])) {
-            $titre = trim($_POST['title'] ?? '');
-            $intro = trim($_POST['intro'] ?? '');
+        if (isset($_POST['addEvent'])) {
+            $title = trim($_POST['title'] ?? '');
+            $category = trim($_POST['category'] ?? '');
+            $image = $_FILES['image'] ?? null;
+
+            if ($image && $image['error'] === UPLOAD_ERR_OK) {
+            $imagePath = '/public/assets/images/uploads/covers/' . basename($image['name']);
+            move_uploaded_file($image['tmp_name'], __DIR__ . '/../../' . $imagePath);
+            } else {
+            $imagePath = null;
+            }
+            $location = trim($_POST['location'] ?? '');
             $description = trim($_POST['description'] ?? '');
             $date = $_POST['date'] ?? '';
+            $time = $_POST['time'] ?? '';
             $status = 'en attente';
-            $lieu = trim($_POST['location'] ?? '');
-            $capacite = trim($_POST['capacity'] ?? '');
-            $category = trim($_POST['category'] ?? '');
-            $organisateur = trim($_POST['organizer'] ?? '');
+            // get the $category id
+            $category = Category::findIdByName($category);
+            
+            $gratuit_capacity = trim($_POST['gratuit_capacity'] ?? '');
+            $earlybird_capacity = trim($_POST['earlybird_capacity'] ?? '');
+            $earlybird_price = trim($_POST['earlybird_price'] ?? '');
+            $payant_capacity = trim($_POST['payant_capacity'] ?? '');
+            $payant_price = trim($_POST['payant_price'] ?? '');
+            $vip_capacity = trim($_POST['vip_capacity'] ?? '');
+            $vip_price = trim($_POST['vip_price'] ?? '');
 
-            if (empty($titre) || empty($intro) || empty($description) || empty($date) || empty($status) || empty($lieu) || empty($capacite) || empty($category) || empty($organisateur)) {
-                echo $this->twig->render('add_event.html.twig', [
-                    'base_url' => '/YouEvent/public/',
-                    'error_message' => 'Tous les champs sont obligatoires.'
-                ]);
-                return;
+            // [
+            //     ['type' => 'gratuit', 'capacity' => 'Disponible', 'price' => 0  ],
+                
+            // ];
+            
+            $ticketgratuit = ['type' => 'gratuit', 'capacity' =>  $gratuit_capacity, 'price' => 0  ];
+            $ticketearlybird = ['type' => 'earlybird', 'capacity' => $earlybird_capacity, 'price' => $earlybird_price  ];
+            $ticketpayant = ['type' => 'payant', 'capacity' => $payant_capacity, 'price' => $payant_price ];
+            $ticketvip = ['type' => 'payant', 'capacity' =>  $vip_capacity, 'price' =>$vip_price  ];
+
+            $tickets = [$ticketgratuit, $ticketearlybird, $ticketpayant, $ticketvip];
+
+            if (empty($title) || empty($category) || empty($location) || empty($description) || empty($date) || empty($time)) {
+            echo $this->twig->render('addEvent.html.twig', [
+                'base_url' => '/YouEvent/public/',
+                'error_message' => 'Tous les champs sont obligatoires.'
+            ]);
+            return;
             } else {
-                $event = new Event(null, $titre, $intro, $description, $date, $status, $lieu, $capacite, $category, $organisateur);
-                $result = $event->creer();
-                if ($result['success']) {
-                    header('Location: events');
-                    exit;
-                } else {
-                    echo $this->twig->render('add_event.html.twig', [
-                        'base_url' => '/YouEvent/public/',
-                        'error_message' => $result['message']
-                    ]);
-                }
+            $event = new Event(null,$title, $imagePath, $description, $date, $status, $location, $capacite ,$category, $organisateur);
+
+
+            $result = $event->creer( $tickets);
+            if ($result['success']) {
+                header('Location: /YouEvent/');
+                exit;
+            } else {
+                echo $this->twig->render('addEvent.html.twig', [
+                'base_url' => '/YouEvent/public/',
+                'error_message' => $result['message']
+                ]);
+            }
             }
         }
     }
@@ -130,7 +160,7 @@ class UserController {
             $organisateur = trim($_POST['organizer'] ?? '');
 
             if (empty($eventId) || empty($titre) || empty($intro) || empty($description) || empty($date) || empty($status) || empty($lieu) || empty($capacite) || empty($category) || empty($organisateur)) {
-                echo $this->twig->render('edit_event.html.twig', [
+                echo $this->twig->render('editEvent.html.twig', [
                     'base_url' => '/YouEvent/public/',
                     'error_message' => 'Tous les champs sont obligatoires.'
                 ]);
