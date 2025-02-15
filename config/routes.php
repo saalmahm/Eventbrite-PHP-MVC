@@ -2,12 +2,21 @@
 <?php
 
 use App\Controllers\UserController;
+use App\Controllers\EvenementController;
+use App\Middleware\AuthMiddleware;
+
+AuthMiddleware::checkAuthentication();
+
 
 
 // // GET routes
 $router->get('/', [UserController::class, 'showHome']);
 $router->get('/login', [UserController::class, 'showLogin']);
 $router->get('/register', [UserController::class, 'showRegistre']);
+$router->get('/evenement', [EvenementController::class, 'showEvenement']);
+$router->get('/contact', [UserController::class, 'showContact']);
+$router->get('/a-propos', [UserController::class, 'showAbout']);
+$router->get('/evenement/details/{id}', [EvenementController::class, 'showDetails']);
 
 // POST routes
 $router->post('/register', [UserController::class, 'registerUser']);

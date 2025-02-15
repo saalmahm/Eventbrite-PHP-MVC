@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <!-- head -->
+    {% include 'partials/header.html.twig' %}
+
+<body class="h-full">
+    <section class="h-screen flex flex-col">
+        <!-- Header -->
+        {% include 'partials/navbar.html.twig' %}
+
+
+        <!--Hero Section -->
+       <div class="bg-gradient-to-br from-orange-50 to-white py-6 md:py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Search Bar -->
+           <div class="bg-white p-3 sm:p-4 md:p-6 rounded-2xl shadow-xl border border-gray-100 mb-4 sm:mb-6 md:mb-8">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-7 gap-3 sm:gap-4">
+            <div class="relative lg:col-span-3">
+                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                    <svg class="h-5 w-5 text-orange-400" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                    </svg>
+                </div>
+                <input type="text" 
+                    id="eventSearch" 
+                    class="block w-full pl-12 pr-4 py-3 sm:py-3.5 border border-gray-200 rounded-xl bg-gray-50 placeholder-gray-400 focus:outline-none focus:border-orange-400 focus:ring-2 focus:ring-orange-200 transition-all duration-200 text-base" 
+                    placeholder="Recherchez un événement"
+                >
+            </div>
+
+            <div class="relative lg:col-span-2">
+                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                    <svg class="h-5 w-5 text-orange-400" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                    </svg>
+                </div>
+                <input type="text" 
+                    id="locationSearch" 
+                    class="block w-full pl-12 pr-4 py-3 sm:py-3.5 border border-gray-200 rounded-xl bg-gray-50 placeholder-gray-400 focus:outline-none focus:border-orange-400 focus:ring-2 focus:ring-orange-200 transition-all duration-200 text-base" 
+                    placeholder="Lieu"
+                >
+            </div>
+
+            <!-- Search Button - Takes 2 columns on large screens -->
+            <button id="searchButton" class="lg:col-span-2 flex justify-center items-center px-6 py-3 sm:py-3.5 bg-orange-400 text-white rounded-xl font-medium hover:bg-orange-500 transition-all duration-200 shadow-lg shadow-orange-400/30 group">
+                <span class="mr-2">Rechercher</span>
+                <svg class="h-5 w-5 transform transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                </svg>
+            </button>
+        </div>
+
+
+   
+</div>
+
+            <!-- Mobile Filter Toggle Button -->
+            <div class="md:hidden mb-4">
+                <button onclick="toggleFilters()" class="w-full flex items-center justify-between px-4 py-3 bg-white rounded-xl border border-gray-200 shadow-sm">
+                    <span class="font-medium text-gray-700">Filtres</span>
+                    <svg class="h-5 w-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Main Content Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                <!-- Filters Section - Mobile Optimized -->
+                <div id="filters-section" class="hidden md:block space-y-4">
+                    <!-- Quick Filters for Mobile -->
+                    <div class="md:hidden flex overflow-x-auto pb-4 space-x-2 mb-4">
+                        <button class="whitespace-nowrap px-4 py-2 rounded-full bg-orange-100 text-orange-600 font-medium">
+                            Tous
+                        </button>
+                        <button class="whitespace-nowrap px-4 py-2 rounded-full bg-white border border-gray-200">
+                            🎵 Musique
+                        </button>
+                        <button class="whitespace-nowrap px-4 py-2 rounded-full bg-white border border-gray-200">
+                            🎨 Art
+                        </button>
+                        <button class="whitespace-nowrap px-4 py-2 rounded-full bg-white border border-gray-200">
+                            🏃‍♂️ Sports
+                        </button>
+                        <button class="whitespace-nowrap px-4 py-2 rounded-full bg-white border border-gray-200">
+                            🎓 Éducation
+                        </button>
+                    </div>
+
+                    <!-- Categories Filter -->
+                    <div class="bg-white p-4 md:p-6 rounded-xl shadow-sm border border-gray-200">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-lg font-semibold text-gray-900">Catégories</h3>
+                            <button class="md:hidden">
+                                <svg class="h-5 w-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="space-y-3">
+                            <label class="flex items-center p-2 hover:bg-gray-50 rounded-lg cursor-pointer">
+                                <input type="checkbox" class="form-checkbox rounded text-orange-400 focus:ring-orange-400">
+                                <span class="text-gray-700 ml-3">🎵 Musique</span>
+                            </label>
+                            <label class="flex items-center p-2 hover:bg-gray-50 rounded-lg cursor-pointer">
+                                <input type="checkbox" class="form-checkbox rounded text-orange-400 focus:ring-orange-400">
+                                <span class="text-gray-700 ml-3">🎨 Art</span>
+                            </label>
+                            <label class="flex items-center p-2 hover:bg-gray-50 rounded-lg cursor-pointer">
+                                <input type="checkbox" class="form-checkbox rounded text-orange-400 focus:ring-orange-400">
+                                <span class="text-gray-700 ml-3">🏃‍♂️ Sports</span>
+                            </label>
+                            <label class="flex items-center p-2 hover:bg-gray-50 rounded-lg cursor-pointer">
+                                <input type="checkbox" class="form-checkbox rounded text-orange-400 focus:ring-orange-400">
+                                <span class="text-gray-700 ml-3">🎓 Éducation</span>
+                            </label>
+                            <label class="flex items-center p-2 hover:bg-gray-50 rounded-lg cursor-pointer">
+                                <input type="checkbox" class="form-checkbox rounded text-orange-400 focus:ring-orange-400">
+                                <span class="text-gray-700 ml-3">🍳 Nourriture</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Price Range Filter -->
+                    <div class="bg-white p-4 md:p-6 rounded-xl shadow-sm border border-gray-200">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-lg font-semibold text-gray-900">Prix</h3>
+                            <button class="md:hidden">
+                                <svg class="h-5 w-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="space-y-3">
+                            <label class="flex items-center p-2 hover:bg-gray-50 rounded-lg cursor-pointer">
+                                <input type="radio" name="price" class="form-radio text-orange-400 focus:ring-orange-400">
+                                <span class="text-gray-700 ml-3">Moins de 100 MAD</span>
+                            </label>
+                            <label class="flex items-center p-2 hover:bg-gray-50 rounded-lg cursor-pointer">
+                                <input type="radio" name="price" class="form-radio text-orange-400 focus:ring-orange-400">
+                                <span class="text-gray-700 ml-3">100 - 250 MAD</span>
+                            </label>
+                            <label class="flex items-center p-2 hover:bg-gray-50 rounded-lg cursor-pointer">
+                                <input type="radio" name="price" class="form-radio text-orange-400 focus:ring-orange-400">
+                                <span class="text-gray-700 ml-3">250 - 500 MAD</span>
+                            </label>
+                            <label class="flex items-center p-2 hover:bg-gray-50 rounded-lg cursor-pointer">
+                                <input type="radio" name="price" class="form-radio text-orange-400 focus:ring-orange-400">
+                                <span class="text-gray-700 ml-3">Plus de 500 MAD</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Date Filter -->
+                    <div class="bg-white p-4 md:p-6 rounded-xl shadow-sm border border-gray-200">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-lg font-semibold text-gray-900">Date</h3>
+                            <button class="md:hidden">
+                                <svg class="h-5 w-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="space-y-3">
+                            <label class="flex items-center p-2 hover:bg-gray-50 rounded-lg cursor-pointer">
+                                <input type="radio" name="date" class="form-radio text-orange-400 focus:ring-orange-400">
+                                <span class="text-gray-700 ml-3">Aujourd'hui</span>
+                            </label>
+                            <label class="flex items-center p-2 hover:bg-gray-50 rounded-lg cursor-pointer">
+                                <input type="radio" name="date" class="form-radio text-orange-400 focus:ring-orange-400">
+                                <span class="text-gray-700 ml-3">Cette semaine</span>
+                            </label>
+                            <label class="flex items-center p-2 hover:bg-gray-50 rounded-lg cursor-pointer">
+                                <input type="radio" name="date" class="form-radio text-orange-400 focus:ring-orange-400">
+                                <span class="text-gray-700 ml-3">Ce mois</span>
+                            </label>
+                            <label class="flex items-center p-2 hover:bg-gray-50 rounded-lg cursor-pointer">
+                                <input type="radio" name="date" class="form-radio text-orange-400 focus:ring-orange-400">
+                                <span class="text-gray-700 ml-3">Choisir une date</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Apply Filters Button - Mobile Only -->
+                    <div class="md:hidden fixed bottom-0 left-0 right-0 p-4 bg-white border-t border-gray-200">
+                        <button class="w-full bg-orange-400 text-white py-3 rounded-xl font-medium hover:bg-orange-500 transition-colors duration-200">
+                            Appliquer les filtres
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Events Grid -->
+                <div class="md:col-span-3">
+                    <!-- Sort Options -->
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
+                    <h2 class="text-xl md:text-2xl font-bold text-gray-900">Résultats ({{ countEvents }})</h2>
+                    <select id="sortSelect" class="w-full sm:w-auto border border-gray-200 rounded-lg px-4 py-2 bg-white focus:outline-none focus:border-orange-400">
+                        <option value="priceAsc">Prix: Croissant</option>
+                        <option value="priceDesc">Prix: Décroissant</option>
+                        <option value="dateAsc">Date: Plus proche</option>
+                    </select>
+                </div>
+
+
+                    <!-- Events Grid -->
+                  <div id="eventsContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+                    {% for event in evenements %}
+                    <div class="bg-white rounded-lg shadow-sm overflow-hidden border border-gray-200 flex flex-col" onclick="handleEventClick('{{ event.idevent }}')">
+                        <div class="relative pt-[75%]">
+                            <img src="{{ base_url }}assets/images/uploads/covers/{{ event.intro }}" alt="Event" class="absolute inset-0 w-full h-full object-cover">
+                        </div>
+
+                        <div class="p-4 flex flex-col flex-grow">
+                            <h3 class="text-lg font-semibold text-gray-900 mb-2">{{ event.titre }}</h3>
+                            <div class="flex items-center space-x-2 text-gray-600 mb-2">
+                                <svg class="h-5 w-5 text-orange-400 flex-shrink-0" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                </svg>
+                                <span class="text-sm">{{ event.ville }}, {{ event.lieu }}</span>
+                            </div>
+
+                            <div class="flex items-center space-x-2 text-gray-600 mb-2">
+                                <svg class="h-5 w-5 text-orange-400 flex-shrink-0" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6l4 2"></path>
+                                    <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2" fill="none"></circle>
+                                </svg>
+                                <!-- Use a single ID for the date -->
+                                <span id="dateEvent" class="text-sm">{{ event.date }}</span>
+                            </div>
+
+                            <div class="flex-grow"></div>
+
+                            <div class="flex items-center justify-between mt-4 pt-4 border-t border-gray-100">
+                                <div>
+                                    <p class="text-xs text-gray-500">À partir de :</p>
+                                    <p class="text-xl md:text-2xl font-bold text-orange-500">{{ event.prix }}<span class="text-sm font-normal ml-1">MAD</span></p>
+                                </div>
+                                <button class="bg-orange-500 hover:bg-orange-600 text-white px-4 md:px-6 py-2 rounded-lg text-sm font-medium transition-colors duration-200">
+                                    J'achète
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+
+
+
+
+                    
+
+                    
+
+                    <!-- Pagination - Enhanced Mobile Version -->
+                    <div class="mt-8 flex justify-center">
+                        <nav class="flex flex-wrap items-center justify-center gap-2">
+                            <button class="px-3 py-2 rounded-lg border border-gray-200 text-gray-500 hover:border-orange-400 hover:text-orange-400 hidden sm:block">
+                                Précédent
+                            </button>
+                            <!-- Mobile Previous Button -->
+                            <button class="sm:hidden px-3 py-2 rounded-lg border border-gray-200 text-gray-500 hover:border-orange-400 hover:text-orange-400">
+                                <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                                </svg>
+                            </button>
+                            
+                            <div class="flex items-center gap-1">
+                                <button class="px-4 py-2 rounded-lg bg-orange-400 text-white">1</button>
+                                <button class="px-4 py-2 rounded-lg border border-gray-200 hover:border-orange-400 hover:text-orange-400 hidden sm:block">2</button>
+                                <button class="px-4 py-2 rounded-lg border border-gray-200 hover:border-orange-400 hover:text-orange-400 hidden sm:block">3</button>
+                                <span class="px-2 py-2 hidden sm:block">...</span>
+                                <button class="px-4 py-2 rounded-lg border border-gray-200 hover:border-orange-400 hover:text-orange-400 hidden sm:block">12</button>
+                            </div>
+
+                            <button class="px-3 py-2 rounded-lg border border-gray-200 text-gray-500 hover:border-orange-400 hover:text-orange-400 hidden sm:block">
+                                Suivant
+                            </button>
+                            <!-- Mobile Next Button -->
+                            <button class="sm:hidden px-3 py-2 rounded-lg border border-gray-200 text-gray-500 hover:border-orange-400 hover:text-orange-400">
+                                <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                                </svg>
+                            </button>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+         <!-- loginModel -->
+        {% include 'session/loginModel.html.twig' %}
+
+        <!-- Footer -->
+        {% include 'partials/footer.html.twig' %}
+
+
+
+    
+<script src="public/assets/js/events.js"></script>
+
+        
+
+
+
+</body>
+</html>
