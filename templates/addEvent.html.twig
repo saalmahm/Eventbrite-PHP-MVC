@@ -1,198 +1,297 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>À propos - Event Platform</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
-        <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+    <title>Ajoute Un Événement | YouEvent</title>
     <script src="https://cdn.tailwindcss.com"></script>
-     <script src="{{ base_url }}/assets/js/main.js" defer></script>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="{{ base_url }}/assets/js/addEvent.js" defer></script>
+
     <style>
-        .mobile-menu {
-            transform: translateX(-100%);
-            transition: transform 0.3s ease-in-out;
+        .sidebar-collapsed {
+            width: 5rem;
         }
 
-        .mobile-menu.active {
-            transform: translateX(0);
+        .sidebar-expanded {
+            width: 16rem;
         }
 
-        html,
-        body {
-            height: 100%;
-            margin: 0;
-            padding: 0;
+        .transition-width {
+            transition: width 0.3s ease-in-out;
+        }
+
+        .sidebar-collapsed .nav-text {
+            display: none;
+        }
+
+        .sidebar-collapsed .logo-full {
+            display: none;
+        }
+
+        .sidebar-expanded .logo-icon {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar-expanded {
+                position: fixed;
+                z-index: 50;
+                height: 100vh;
+            }
+
+            .sidebar-collapsed {
+                width: 0;
+                overflow: hidden;
+            }
         }
     </style>
-
 </head>
+
 <body class="bg-gray-50">
-    {% include 'partials/navbar.html.twig' %}
-     <div class="relative bg-gradient-to-r from-orange-500 to-red-600 overflow-hidden">
-        <div class="absolute inset-0">
-            <img src="{{ base_url }}assets/images/aboutUs.jpg" alt="About Hero" class="w-full h-full object-cover mix-blend-multiply opacity-20">
-        </div>
-        <div class="relative max-w-7xl mx-auto py-24 px-4 sm:px-6 lg:px-8">
-            <div class="text-center">
-                <h1 class="text-4xl font-extrabold tracking-tight text-white sm:text-5xl lg:text-6xl" data-aos="fade-up">
-                    À propos de nous
-                </h1>
-                <p class="mt-6 max-w-2xl mx-auto text-xl text-orange-100" data-aos="fade-up" data-aos-delay="100">
-                    Découvrez notre passion pour l'organisation d'événements inoubliables
-                </p>
+    <div class="flex h-screen">
+        <!-- Sidebar -->
+        <aside id="sidebar"
+            class="sidebar-expanded transition-width bg-white border-r border-gray-200 flex flex-col shadow-lg">
+            <div class="p-4 border-b border-gray-200 flex justify-between items-center">
+                <img src="../public/assets/images/logo.svg" alt="YouEvent Logo" class="h-12 logo-full">
+                <img src="../public/assets/images/logo.svg" alt="YouEvent" class="h-12 logo-icon hidden">
+                <button id="toggleSidebar" class="p-2 rounded-lg hover:bg-gray-100 text-gray-500">
+                    <i class="ri-arrow-left-s-line"></i>
+                    <i class="ri-sidebar-fold-line"></i>
+                    <i class="ri-sidebar-fold-line text-black bg-red-600"></i>
+                </button>
             </div>
+            <nav class="flex-1 overflow-y-auto py-4">
+                <ul class="space-y-2 px-3">
+                    <li>
+                        <a href="dashbord"
+                            class="flex items-center px-4 py-3 text-orange-500 bg-orange-50 rounded-lg group">
+                            <i class="ri-dashboard-line text-xl"></i>
+                            <span class="ml-3 nav-text">Tableau de bord</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="evenements"
+                            class="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-50 rounded-lg group">
+                            <i class="ri-calendar-event-line text-xl"></i>
+                            <span class="ml-3 nav-text">Événements</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="promotion"
+                            class="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-50 rounded-lg group">
+                            <i class="ri-megaphone-line text-xl"></i>
+                            <span class="ml-3 nav-text">Promotion</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="contacts"
+                            class="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-50 rounded-lg group">
+                            <i class="ri-contacts-book-line text-xl"></i>
+                            <span class="ml-3 nav-text">Liste de contacts</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="#" class="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-50 rounded-lg group">
+                            <i class="ri-file-chart-line text-xl"></i>
+                            <span class="ml-3 nav-text">Rapports</span>
+                        </a>
+                    </li>
+
+                </ul>
+            </nav>
+            <div class="p-4 border-t border-gray-200">
+                <div class="flex items-center">
+                    <img src="../public/assets/images/profil/avatar.svg" alt="Profile" class="w-8 h-8 rounded-full">
+                    <div class="ml-3 nav-text">
+                        <p class="text-sm font-medium text-gray-700">Jean Dupont</p>
+                        <p class="text-xs text-gray-500">Organisateur</p>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <div class="flex-1 flex flex-col overflow-hidden">
+            <header class="bg-white border-b border-gray-200 shadow-sm">
+                <div class="flex items-center justify-between px-4 py-4 sm:px-6">
+                    <div class="flex items-center">
+                        <button id="mobileMenuBtn"
+                            class="mr-2 text-gray-500 hover:text-gray-600 focus:outline-none focus:text-gray-600 md:hidden">
+                            <i class="ri-menu-line text-2xl"></i>
+                        </button>
+                        <div class="flex items-center space-x-4">
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-4">
+
+                        <button class="p-2 hover:bg-orange-400 rounded-full">
+                            <i class="ri-notification-3-line text-xl text-gray-600 hover:text-white"></i>
+                        </button>
+                        <button class="p-2 hover:bg-orange-400 rounded-full">
+                            <i class="ri-settings-4-line text-xl text-gray-600 hover:text-white"></i>
+                        </button>
+                    </div>
+                </div>
+            </header>
+
+            <main class="flex-1 overflow-y-auto bg-gray-50 p-4 sm:p-6">
+                <div class="max-w-7xl mx-auto">
+
+                    <form action="" method="POST" enctype="multipart/form-data">
+                        <div class="space-y-6">
+                            <div class="">
+                                <label for="title" class="block text-md font-medium text-gray-700 ">Titre de
+                                    l'événement</label>
+                                <input type="text" id="title" name="title" required
+                                    class="mt-1 block w-full p-2 rounded-md border border-gray-200 shadow-sm ">
+                            </div>
+
+                            <div>
+                                <label for="category" class="block text-md font-medium text-gray-700">Catégorie</label>
+                                <select id="category" name="category" required
+                                    class="mt-1 block w-full rounded-md p-2 border border-gray-200 shadow-sm focus:border-orange-500 focus:ring-orange-500">
+                                    <option value="">Sélectionnez une catégorie</option>
+                                    <option value="music">Musique</option>
+                                    <option value="art">Art</option>
+                                    <option value="sports">Sports</option>
+                                    <option value="food">Gastronomie</option>
+                                    <option value="technology">Technologie</option>
+                                    <option value="business">Business</option>
+                                </select>
+                            </div>
+
+                            <div class="flex flex-col gap-2">
+                                <label for="image" class="block text-md font-medium text-gray-700">Image de
+                                    l'événement</label>
+                                <div class="border border-dashed border-orange-400 rounded-md p-4">
+                                    <label class="custom-file-upload flex justify-center items-center rounded-md">
+                                       <input type="file" name="image" required> 
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label for="location" class="block text-md font-medium text-gray-700">Lieu</label>
+                                <input type="text" id="location" name="location" required
+                                    class="mt-1 block w-full p-2 border border-gray-200 rounded-md  shadow-sm focus:border-orange-500 focus:ring-orange-500">
+                            </div>
+
+                            <div>
+                                <label class="block text-md font-medium text-gray-700">Capacité et Tarification</label>
+                                <div class="mt-2 overflow-x-auto border border-gray-300 rounded-md">
+                                    <table
+                                        class="min-w-full bg-white border border-gray-300 border border-gray-200 rounded-md overflow-hidden">
+                                        <thead class="bg-gray-100">
+                                            <tr>
+                                                <th
+                                                    class="px-4 py-2 text-left text-sm font-medium text-gray-700 border">
+                                                    Type de billet</th>
+                                                <th
+                                                    class="px-4 py-2 text-left text-sm font-medium text-gray-700 border">
+                                                    Quantité</th>
+                                                <th
+                                                    class="px-4 py-2 text-left text-sm font-medium text-gray-700 border">
+                                                    Prix (€)</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="px-4 py-2 border">Gratuit</td>
+                                                <td class="px-4 py-2 border">
+                                                    <input type="number" id="gratuit_capacity" name="gratuit_capacity"
+                                                        min="1"
+                                                        class="w-full p-2 border rounded-md focus:border-orange-500 focus:ring-orange-500">
+                                                </td>
+                                                <td class="px-4 py-2 border text-center text-gray-500">—</td>
+                                            </tr>
+
+                                            <tr>
+                                                <td class="px-4 py-2 border">Early Bird</td>
+                                                <td class="px-4 py-2 border">
+                                                    <input type="number" id="earlybird_capacity"
+                                                        name="earlybird_capacity" min="1"
+                                                        class="w-full p-2 border rounded-md focus:border-orange-500 focus:ring-orange-500">
+                                                </td>
+                                                <td class="px-4 py-2 border">
+                                                    <input type="number" id="earlybird_price" name="earlybird_price"
+                                                        min="0" step="0.01"
+                                                        class="w-full p-2 border rounded-md focus:border-orange-500 focus:ring-orange-500">
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td class="px-4 py-2 border">Payant</td>
+                                                <td class="px-4 py-2 border">
+                                                    <input type="number" id="payant_capacity" name="payant_capacity"
+                                                        min="1"
+                                                        class="w-full p-2 border rounded-md focus:border-orange-500 focus:ring-orange-500">
+                                                </td>
+                                                <td class="px-4 py-2 border">
+                                                    <input type="number" id="payant_price" name="payant_price" min="0"
+                                                        step="0.01"
+                                                        class="w-full p-2 border rounded-md focus:border-orange-500 focus:ring-orange-500">
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td class="px-4 py-2 border">VIP</td>
+                                                <td class="px-4 py-2 border">
+                                                    <input type="number" id="vip_capacity" name="vip_capacity" min="1"
+                                                        class="w-full p-2 border rounded-md focus:border-orange-500 focus:ring-orange-500">
+                                                </td>
+                                                <td class="px-4 py-2 border">
+                                                    <input type="number" id="vip_price" name="vip_price" min="0"
+                                                        step="0.01"
+                                                        class="w-full p-2 border rounded-md focus:border-orange-500 focus:ring-orange-500">
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+
+
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label for="date" class="block text-md font-medium text-gray-700">Date</label>
+                                    <input type="date" id="date" name="date" required
+                                        class="mt-1 block p-2 border border-gray-200 w-full rounded-md  shadow-sm focus:border-orange-500 focus:ring-orange-500">
+                                </div>
+                                <div>
+                                    <label for="time" class="block text-md font-medium text-gray-700">Heure</label>
+                                    <input type="time" id="time" name="time" required
+                                        class="mt-1 block w-full rounded-md border border-gray-200 p-2 shadow-sm focus:border-orange-500 focus:ring-orange-500">
+                                </div>
+                            </div>
+
+                            <div>
+                                <label for="description"
+                                    class="block text-md font-medium text-gray-700">Description</label>
+                                <textarea id="description" name="description" rows="4" required
+                                    class="mt-1 block w-full rounded-md p-2 border border-gray-200 shadow-sm focus:border-orange-500 focus:ring-orange-500"></textarea>
+                            </div>
+
+                            <div class="flex justify-end">
+                                <button type="submit" name="addEvent"
+                                    class="px-6 py-3 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors flex items-center text-sm font-medium">
+                                    <i class="ri-add-line mr-2"></i>
+                                    Créer l'Événement
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+            </main>
         </div>
     </div>
 
-    <!-- Main Content -->
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <!-- Mission Section -->
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-20">
-            <div class="space-y-6" data-aos="fade-right">
-                <h2 class="text-3xl font-bold text-gray-900">Notre Mission</h2>
-                <p class="text-lg text-gray-600 leading-relaxed">
-                    Nous nous engageons à créer des expériences uniques et mémorables pour nos clients. Notre plateforme 
-                    simplifie l'organisation et la gestion d'événements, permettant aux organisateurs de se concentrer sur 
-                    ce qui compte vraiment : créer des moments inoubliables.
-                </p>
-                <div class="flex flex-col sm:flex-row gap-4 mt-8">
-                    <div class="flex items-center gap-3 bg-orange-50 px-6 py-4 rounded-lg">
-                        <span class="text-3xl font-bold text-orange-500">500+</span>
-                        <span class="text-gray-600">Événements<br>Organisés</span>
-                    </div>
-                    <div class="flex items-center gap-3 bg-blue-50 px-6 py-4 rounded-lg">
-                        <span class="text-3xl font-bold text-blue-500">50k+</span>
-                        <span class="text-gray-600">Participants<br>Satisfaits</span>
-                    </div>
-                </div>
-            </div>
-            <div class="relative" data-aos="fade-left">
-                <img src="{{ base_url }}assets/images/aboutUs.jpg" alt="Mission" class="rounded-2xl shadow-xl">
-                <div class="absolute -bottom-6 -right-6 bg-gradient-to-br from-orange-500 to-red-600 rounded-2xl w-48 h-48 -z-10"></div>
-            </div>
-        </div>
-
-        <!-- Values Section -->
-        <div class="mb-20">
-            <h2 class="text-3xl font-bold text-gray-900 text-center mb-12" data-aos="fade-up">Nos Valeurs</h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div class="bg-white rounded-xl p-6 shadow-sm hover:shadow-lg transition-shadow" data-aos="fade-up" data-aos-delay="100">
-                    <div class="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mb-4">
-                        <svg class="w-6 h-6 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
-                        </svg>
-                    </div>
-                    <h3 class="text-xl font-semibold text-gray-900 mb-2">Innovation</h3>
-                    <p class="text-gray-600">Nous repoussons constamment les limites pour offrir des solutions créatives et innovantes.</p>
-                </div>
-
-                <div class="bg-white rounded-xl p-6 shadow-sm hover:shadow-lg transition-shadow" data-aos="fade-up" data-aos-delay="200">
-                    <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
-                        <svg class="w-6 h-6 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
-                        </svg>
-                    </div>
-                    <h3 class="text-xl font-semibold text-gray-900 mb-2">Collaboration</h3>
-                    <p class="text-gray-600">Nous travaillons main dans la main avec nos clients pour réaliser leurs visions.</p>
-                </div>
-
-                <div class="bg-white rounded-xl p-6 shadow-sm hover:shadow-lg transition-shadow" data-aos="fade-up" data-aos-delay="300">
-                    <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-4">
-                        <svg class="w-6 h-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
-                        </svg>
-                    </div>
-                    <h3 class="text-xl font-semibold text-gray-900 mb-2">Excellence</h3>
-                    <p class="text-gray-600">Nous visons l'excellence dans chaque aspect de nos services.</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Team Section -->
-        <div class="mb-20">
-            <h2 class="text-3xl font-bold text-gray-900 text-center mb-12" data-aos="fade-up">Notre Équipe</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
-                <div class="group" data-aos="fade-up" data-aos-delay="100">
-                    <div class="relative overflow-hidden rounded-xl">
-                        <img src="{{ base_url }}assets/images/profil/mostaain.jpg" alt="Team Member 1" class="w-full h-full object-cover transition-transform group-hover:scale-110">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                        <div class="absolute bottom-0 left-0 right-0 p-6">
-                            <h3 class="text-xl font-semibold text-white">Mohammed El Mostaine</h3>
-                            <p class="text-orange-200">Développeur Backend</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="group" data-aos="fade-up" data-aos-delay="200">
-                    <div class="relative overflow-hidden rounded-xl">
-                        <img src="{{ base_url }}assets/images/profil/donya.jpg" alt="Team Member 2" class="w-full h-full object-cover transition-transform group-hover:scale-110">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                        <div class="absolute bottom-0 left-0 right-0 p-6">
-                            <h3 class="text-xl font-semibold text-white">Dounia Elgarrai</h3>
-                            <p class="text-orange-200">Architecte Système</p>
-                        </div>
-                    </div>
-                </div>
-
-                
-                <div class="group" data-aos="fade-up" data-aos-delay="200">
-                    <div class="relative overflow-hidden rounded-xl">
-                        <img src="{{ base_url }}assets/images/profil/zbida.jpg" alt="Team Member 2" class="w-full h-full object-cover transition-transform group-hover:scale-110">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                        <div class="absolute bottom-0 left-0 right-0 p-6">
-                            <h3 class="text-xl font-semibold text-white">Yassir Zbida</h3>
-                            <p class="text-orange-200">Développeur Frontend</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="group" data-aos="fade-up" data-aos-delay="300">
-                    <div class="relative overflow-hidden rounded-xl">
-                        <img src="{{ base_url }}assets/images/profil/salma.jpg" alt="Team Member 3" class="w-full h-full object-cover transition-transform group-hover:scale-110">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                        <div class="absolute bottom-0 left-0 right-0 p-6">
-                            <h3 class="text-xl font-semibold text-white">Salma Hamdi</h3>
-                            <p class="text-orange-200">Chef de Projet</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="group" data-aos="fade-up" data-aos-delay="400">
-                    <div class="relative overflow-hidden rounded-xl">
-                        <img src="{{ base_url }}assets/images/profil/bouchta.jpg" alt="Team Member 4" class="w-full h-full object-cover transition-transform group-hover:scale-110">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                        <div class="absolute bottom-0 left-0 right-0 p-6">
-                            <h3 class="text-xl font-semibold text-white">Bouchta Mohamed</h3>
-                            <p class="text-orange-200">Développeur Backend</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Contact CTA -->
-        <div class="bg-gradient-to-r from-orange-500 to-red-600 rounded-2xl p-8 md:p-12 text-center" data-aos="fade-up">
-            <h2 class="text-3xl font-bold text-white mb-4">Prêt à Organiser Votre Événement ?</h2>
-            <p class="text-lg text-orange-100 mb-8 max-w-2xl mx-auto">
-                Contactez-nous dès aujourd'hui pour transformer votre vision en réalité
-            </p>
-            <button class="bg-white text-orange-600 px-8 py-4 rounded-xl font-semibold hover:bg-orange-50 transition-colors transform hover:scale-105">
-                Contactez-nous
-            </button>
-        </div>
-    </div>
-        {% include 'partials/footer.html.twig' %}
-
-
-    <script>
-        AOS.init({
-            duration: 800,
-            once: true,
-            offset: 100
-        });
-    </script>
 </body>
+
 </html>
