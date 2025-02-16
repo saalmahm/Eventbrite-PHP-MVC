@@ -1,4 +1,8 @@
 <?php
+namespace App\Models;
+
+require_once __DIR__ . '/../../config/Database.php';
+
 use Config\Database;
 use PDO;
 use PDOException;
@@ -35,11 +39,10 @@ class Ticket {
         try {
             $conn = Database::getConnection();
             $query = "INSERT INTO ticket 
-                (idEvent, type, capacite, prix) 
-                VALUES (:idEvent, :type, :capacite, :prix)";
+                (type, capacite, prix) 
+                VALUES (:type, :capacite, :prix)";
             
             $stmt = $conn->prepare($query);
-            $stmt->bindParam(':idEvent', $this->idEvent);
             $stmt->bindParam(':type', $this->type);
             $stmt->bindParam(':capacite', $this->capacite);
             $stmt->bindParam(':prix', $this->prix);

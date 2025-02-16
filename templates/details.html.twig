@@ -185,57 +185,162 @@
                     </button>
                 </div>
 
-                <!-- VIP Ticket -->
-                <div class="bg-gradient-to-br from-amber-50 to-white rounded-xl shadow-sm p-6 border border-amber-200 relative overflow-hidden transform hover:-translate-y-1 transition-transform">
-                    <div class="absolute top-4 right-4">
-                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-amber-100 text-amber-800">
-                            VIP
-                        </span>
+    
+            </div>
+        </div>
+    </div>
+
+        <!-- Reservation Modal -->
+    <div id="reservationModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 hidden">
+        <div class="min-h-screen px-4 text-center">
+            <div class="fixed inset-0 transition-opacity" aria-hidden="true">
+                <div class="absolute inset-0 bg-black/50"></div>
+            </div>
+
+            <!-- Modal container -->
+            <div class="inline-block w-full max-w-2xl p-6 my-8 text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
+                <div class="relative">
+                    <!-- Header -->
+                    <div class="border-b border-gray-200 pb-4">
+                        <h3 class="text-2xl font-bold text-gray-900">Réservation de billets</h3>
+                        <button onclick="closeModal()" class="absolute top-0 right-0 text-gray-400 hover:text-gray-500">
+                            <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                            </svg>
+                        </button>
                     </div>
-                    <div class="flex flex-col mb-4">
-                        <h3 class="text-2xl font-bold text-gray-900">Pass VIP</h3>
-                        <p class="text-3xl font-bold text-amber-600 mt-2">{{ vipTicket.prix }}  MAD</p>
+
+                    <!-- Event Info -->
+                    <div class="py-4 border-b border-gray-200 bg-orange-50 rounded-lg mt-4">
+                        <div class="flex gap-4">
+                            <img src="{{ base_url }}assets/images/uploads/covers/{{ evenements.intro }}" alt="Event" class="w-28 h-28 rounded-lg object-cover">
+                            <div>
+                                <h4 class="text-xl font-semibold text-gray-900">Festival de Musique 2024</h4>
+                                <div class="flex items-center text-gray-600 mt-2">
+                                    <svg class="w-5 h-5 text-orange-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                                    </svg>
+                                    <span>25 Mars 2024 - 20:00</span>
+                                </div>
+                                <div class="flex items-center text-gray-600 mt-1">
+                                    <svg class="w-5 h-5 text-orange-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                    </svg>
+                                    <span>Théâtre Mohammed V, Rabat</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <ul class="space-y-3 mb-6">
-                        <li class="flex items-center text-gray-600">
-                            <svg class="h-5 w-5 text-amber-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                            </svg>
-                            Accès VIP
-                        </li>
-                        <li class="flex items-center text-gray-600">
-                            <svg class="h-5 w-5 text-amber-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                            </svg>
-                            Buffet gastronomique
-                        </li>
-                        <li class="flex items-center text-gray-600">
-                            <svg class="h-5 w-5 text-amber-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                            </svg>
-                            Place réservée
-                        </li>
-                        <li class="flex items-center text-gray-600">
-                            <svg class="h-5 w-5 text-amber-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                            </svg>
-                            Meet & Greet
-                        </li>
-                    </ul>
-                <form method="post" action="">
-                    <button type="submit" name="reserveTicket" class="w-full bg-amber-600 text-white py-4 rounded-lg font-medium hover:bg-amber-700 transition-colors transform hover:scale-105">
-                        Réserver maintenant
-                    </button>
-                </form>
+
+                    <!-- Ticket Selection -->
+                    <div class="py-4 space-y-4">
+                        <div class="flex items-center justify-between p-4 border border-gray-200 rounded-xl hover:border-orange-200 transition-colors">
+                            <div>
+                                <h4 class="font-semibold text-gray-900">Billet Standard</h4>
+                                <p class="text-sm text-gray-600">Accès général à l'événement</p>
+                            </div>
+                            <div class="flex items-center gap-4">
+                                <span class="text-xl font-bold text-orange-500">250 MAD</span>
+                                <div class="flex items-center border border-gray-200 rounded-lg">
+                                    <button class="px-3 py-1 text-gray-600 hover:bg-gray-100 rounded-l-lg" onclick="updateQuantity('standard', -1)">-</button>
+                                    <input type="number" id="standardQuantity" class="w-12 text-center border-x border-gray-200 py-1" value="0" min="0" max="10">
+                                    <button class="px-3 py-1 text-gray-600 hover:bg-gray-100 rounded-r-lg" onclick="updateQuantity('standard', 1)">+</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center justify-between p-4 border border-gray-200 rounded-xl hover:border-orange-200 transition-colors">
+                            <div>
+                                <h4 class="font-semibold text-gray-900">Billet VIP</h4>
+                                <p class="text-sm text-gray-600">Accès premium + cocktail</p>
+                            </div>
+                            <div class="flex items-center gap-4">
+                                <span class="text-xl font-bold text-orange-500">500 MAD</span>
+                                <div class="flex items-center border border-gray-200 rounded-lg">
+                                    <button class="px-3 py-1 text-gray-600 hover:bg-gray-100 rounded-l-lg" onclick="updateQuantity('vip', -1)">-</button>
+                                    <input type="number" id="vipQuantity" class="w-12 text-center border-x border-gray-200 py-1" value="0" min="0" max="10">
+                                    <button class="px-3 py-1 text-gray-600 hover:bg-gray-100 rounded-r-lg" onclick="updateQuantity('vip', 1)">+</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Footer with Total -->
+                    <div class="border-t border-gray-200 mt-6 pt-4">
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-gray-600">Total</span>
+                            <span id="totalPrice" class="text-2xl font-bold text-orange-500">0 MAD</span>
+                        </div>
+                        <button onclick="confirmReservation()" class="w-full bg-orange-500 text-white py-3 px-6 rounded-xl font-semibold hover:bg-orange-600 transition-colors">
+                            Confirmer la réservation
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
+ 
+
     <!-- Footer Placeholder -->
     <div id="footer"></div>
 
+   <script>
+        // Initialize AOS
+        AOS.init({
+            duration: 800,
+            once: true
+        });
 
+       
+
+        // Modal functionality
+        function openModal() {
+            document.getElementById('reservationModal').classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('reservationModal').classList.add('hidden');
+        }
+
+        // Initialize ticket quantities
+        let quantities = {
+            standard: 0,
+            vip: 0
+        };
+
+        const PRICES = {
+            standard: 250,
+            vip: 500
+        };
+
+        function updateQuantity(type, change) {
+            const input = document.getElementById(`${type}Quantity`);
+            const newValue = Math.max(0, Math.min(10, parseInt(input.value) + change));
+            input.value = newValue;
+            quantities[type] = newValue;
+            updateTotal();
+        }
+
+        function updateTotal() {
+            const total = (quantities.standard * PRICES.standard) + (quantities.vip * PRICES.vip);
+            document.getElementById('totalPrice').textContent = `${total} MAD`;
+        }
+
+        function confirmReservation() {
+            // Add reservation logic here
+            closeModal();
+            alert('Réservation confirmée !');
+        }
+
+        // Add event listeners to reservation buttons
+        document.querySelectorAll('button').forEach(button => {
+            if (button.textContent.trim() === 'Réserver maintenant') {
+                button.addEventListener('click', openModal);
+            }
+        });
+    </script>
 
 <script>
     function updateTimer() {
