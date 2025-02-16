@@ -4,6 +4,8 @@ require_once __DIR__ . '/../../config/Database.php';
 
 use Config\Database;
 use PDO;
+use PDOException;
+use App\Models\Ticket;
 
 class Evenement {
     private $idEvent;
@@ -62,29 +64,52 @@ class Evenement {
     public function creer() {
         try {
             $conn = Database::getConnection();
+            $conn->beginTransaction();
+
             $query = "INSERT INTO evenement 
-                (titre, intro, description, date, status, lieu, ville, capacite, category, organisateur) 
-                VALUES (:titre, :intro, :description, :date, :status, :lieu, :ville, :capacite, :category, :organisateur)";
-            
+            (titre, intro, description, date, status, lieu, capacite, idcategory, idorganisateur, ville) 
+            VALUES (:titre, :intro, :description, :date, :status, :lieu, :capacite ,:category, :organisateur, :ville)";
+
             $stmt = $conn->prepare($query);
-            $stmt->execute([
-                ':titre' => $this->titre,
-                ':intro' => $this->intro,
-                ':description' => $this->description,
-                ':date' => $this->date,
-                ':status' => $this->status,
-                ':lieu' => $this->lieu,
-                ':ville' => $this->ville,
-                ':capacite' => $this->capacite,
-                ':category' => $this->category,
-                ':organisateur' => $this->organisateur
-            ]);
+            $stmt->bindParam(':titre', $this->titre, PDO::PARAM_STR);
+            $stmt->bindParam(':intro', $this->intro, PDO::PARAM_STR);
+            $stmt->bindParam(':description', $this->description, PDO::PARAM_STR);
+            $stmt->bindParam(':date', $this->date, PDO::PARAM_STR);
+            $stmt->bindParam(':status', $this->status, PDO::PARAM_STR);
+            $stmt->bindParam(':lieu', $this->lieu, PDO::PARAM_STR);
+            $stmt->bindParam(':ville', $this->ville, PDO::PARAM_STR);
+            $stmt->bindParam(':capacite', $this->capacite, PDO::PARAM_INT);
+            $stmt->bindParam(':category', $this->category, PDO::PARAM_INT);
+            $stmt->bindParam(':organisateur', $this->organisateur, PDO::PARAM_INT);
+
+            $stmt->execute();
             
-            $this->idEvent = $conn->lastInsertId();
-            
-            return ['success' => true, 'message' => 'Événement créé avec succès', 'idEvent' => $this->idEvent];
+            // $this->idEvent = $conn->lastInsertId();
+            // // Création des tickets
+            // foreach ($tickets as $ticketData) {
+            //     $quantity = $ticketData['capacity'] ;
+            //     for ($i = 1; $i <= $quantity; $i++) {
+            //         $ticket = new Ticket(null, $this->idEvent, $ticketData['type'], 'Disponible', $ticketData['prix']);
+            //         $result = $ticket->creer();
+            //         if (!$result['success']) {
+            //             throw new PDOException($result['message']);
+            //         }
+            //     }
+            // }
+
+            // $conn->commit();
+
+            return [
+                'success' => true,
+                'message' => 'Événement créé avec succès',
+                'idEvent' => $this->idEvent
+            ];
         } catch (PDOException $e) {
-            return ['success' => false, 'message' => 'Erreur: ' . $e->getMessage()];
+            $conn->rollBack();
+            return [
+                'success' => false,
+                'message' => 'Erreur lors de la création de l\'événement: ' . $e->getMessage()
+            ];
         }
     }
 
@@ -148,6 +173,34 @@ class Evenement {
             $stmt->execute();
             $type = $stmt->fetchAll(PDO::FETCH_ASSOC);
             return $type;
+        }
+        public function supprimer($idEvent) {
+            if ($this->idEvent === null) {
+                return [
+                    'success' => false,
+                    'message' => 'ID de l\'événement non spécifié'
+                ];
+            }
+    
+            try {
+                $conn = Database::getConnection();
+                $query = "DELETE FROM evenement WHERE idEvent = :idEvent";
+                
+                $stmt = $conn->prepare($query);
+                $stmt->bindParam(':idEvent', $idEvent);
+                
+                $stmt->execute();
+                
+                return [
+                    'success' => true,
+                    'message' => 'Événement supprimé avec succès'
+                ];
+            } catch (PDOException $e) {
+                return [
+                    'success' => false,
+                    'message' => 'Erreur lors de la suppression de l\'événement: ' . $e->getMessage()
+                ];
+            }
         }
 
   

@@ -142,7 +142,7 @@
             <main class="flex-1 overflow-y-auto bg-gray-50 p-4 sm:p-6">
                 <div class="max-w-7xl mx-auto">
 
-                    <form>
+                    <form action="" method="POST" >
                         <div class="space-y-6">
                             <div class="">
                                 <label for="title" class="block text-md font-medium text-gray-700 ">Titre de
@@ -156,12 +156,12 @@
                                 <select id="category" name="category" required
                                     class="mt-1 block w-full rounded-md p-2 border border-gray-200 shadow-sm focus:border-orange-500 focus:ring-orange-500">
                                     <option value="">Sélectionnez une catégorie</option>
-                                    <option value="music">Musique</option>
-                                    <option value="art">Art</option>
-                                    <option value="sports">Sports</option>
-                                    <option value="food">Gastronomie</option>
-                                    <option value="technology">Technologie</option>
-                                    <option value="business">Business</option>
+                                    <option value="1">Musique</option>
+                                    <option value="2">Art</option>
+                                    <option value="3">Sports</option>
+                                    <option value="4">Gastronomie</option>
+                                    <option value="5">Technologie</option>
+                                    <option value="6">Business</option>
                                 </select>
                             </div>
 
@@ -182,6 +182,11 @@
                             </div>
 
                             <div>
+                                <label for="ville" class="block text-md font-medium text-gray-700">Lieu</label>
+                                <input type="text" id="location" name="ville" required
+                                    class="mt-1 block w-full p-2 border border-gray-200 rounded-md  shadow-sm focus:border-orange-500 focus:ring-orange-500">
+                            </div>
+                             <div>
                                 <label for="location" class="block text-md font-medium text-gray-700">Lieu</label>
                                 <input type="text" id="location" name="location" required
                                     class="mt-1 block w-full p-2 border border-gray-200 rounded-md  shadow-sm focus:border-orange-500 focus:ring-orange-500">
@@ -284,7 +289,7 @@
                             </div>
 
                             <div class="flex justify-end">
-                                <button type="submit"
+                                <button type="submit" name="addEvent"
                                     class="px-6 py-3 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors flex items-center text-sm font-medium">
                                     <i class="ri-add-line mr-2"></i>
                                     Créer l'Événement
