@@ -119,6 +119,7 @@ class UserController {
 
     public function showAddEvent() {
         echo $this->twig->render('addEvent.html.twig', ['base_url' => '/YouEvent/public/']);
+        echo $this->twig->render('addEvent.html.twig', ['base_url' => '/YouEvent/public/']);
     }
 
     public function addEvent() {
@@ -203,6 +204,7 @@ class UserController {
             $organisateur = trim($_POST['organizer'] ?? '');
 
             if (empty($eventId) || empty($titre) || empty($intro) || empty($description) || empty($date) || empty($status) || empty($lieu) || empty($capacite) || empty($category) || empty($organisateur)) {
+               
                 echo $this->twig->render('editEvent.html.twig', [
                     'base_url' => '/YouEvent/public/',
                     'error_message' => 'Tous les champs sont obligatoires.'

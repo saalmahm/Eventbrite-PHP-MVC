@@ -25,6 +25,8 @@ $router->post('/register', [UserController::class, 'registerUser']);
 $router->post('/login', [UserController::class, 'loginUser']);
 $router->post('/dashboard/addEvent/', [UserController::class,'addEvent'] );
 
+$router->post('/dashboard/addEvent/', [UserController::class,'addEvent'] );
+
 
 
 
