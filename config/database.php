@@ -13,7 +13,7 @@ class Database
     {
         if (self::$conn === null) {
             try {
-                self::$conn = new PDO("pgsql:host=localhost;port=5432;dbname=YouEvent", "postgres", "0000");
+                self::$conn = new PDO("pgsql:host=localhost;port=5432;dbname=YouEvent", "postgres", "yassir10-52");
                 self::$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
              
             } catch (PDOException $e) {

@@ -4,7 +4,7 @@ require_once __DIR__ . '/../../config/Database.php';
 
 use Config\Database;
 use PDO;
-
+use PDOException;
 abstract class User{
     protected int $idUser;
     protected string $username;
@@ -134,7 +134,7 @@ abstract class User{
         } elseif ($role === 'organisateur') {
             $sql = "INSERT INTO organisateur (username, email, password, image) VALUES (?, ?, ?, ?)";
         } else {
-            throw new Exception("Invalid role: $role");
+            throw new PDOException("Invalid role: $role");
         }
     
         $stmt = $conn->prepare($sql);
