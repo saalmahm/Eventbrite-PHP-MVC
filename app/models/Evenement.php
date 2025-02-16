@@ -84,7 +84,7 @@ class Evenement {
 
             $stmt->execute();
             
-            // $this->idEvent = $conn->lastInsertId();
+            echo $conn->lastInsertId();
             // // Création des tickets
             // foreach ($tickets as $ticketData) {
             //     $quantity = $ticketData['capacity'] ;
