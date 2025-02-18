@@ -1,8 +1,9 @@
 {
-    "name": "youco/eventbrite",
+    "name": "youcode/you-event",
     "autoload": {
         "psr-4": {
-            "Youco\\Eventbrite\\": "src/"
+            "App\\": "app/",
+            "Core\\": "core/"
         }
     },
     "authors": [
@@ -11,5 +12,7 @@
             "email": "saalmahm51@gmail.com"
         }
     ],
-    "require": {}
+    "require": {
+        "twig/twig": "^3.8"
+    }
 }

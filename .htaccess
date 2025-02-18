@@ -1,0 +1,27 @@
+RewriteEngine On
+
+# Assurez-vous que la base du dossier est correcte
+RewriteBase /YouEvent/
+
+# Si l'URL est vide (accès à la racine), rediriger vers home
+RewriteRule ^$ /YouEvent/public/index.php?route=/ [L,QSA]
+
+# Permet l'accès direct au dossier 'uploads'
+RewriteRule ^uploads/ - [L]
+
+# Si le fichier ou répertoire demandé n'existe pas, le rediriger vers index.php avec la route
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ /YouEvent/public/index.php?route=$1 [L,QSA]
+
+# Gérer l'entête d'autorisation
+RewriteCond %{HTTP:Authorization} .
+RewriteRule . - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
+# Rediriger les slashes finaux si ce n'est pas un dossier
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_URI} (.+)/$
+RewriteRule ^ %1 [L,R=301]
+
+# Empêcher l'affichage des répertoires
+Options -Indexes

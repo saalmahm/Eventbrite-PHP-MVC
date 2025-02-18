@@ -1,0 +1,68 @@
+<header class="bg-black text-white">
+    <div class="border-b border-gray-800">
+        <div class="container mx-auto md:px-12 py-1 flex justify-between items-center text-sm bg-orange-400 md:px-0 px-4">
+            <div class="flex items-center space-x-4">
+                <span class="flex items-center text-black font-semibold">
+                    <i class="ri-phone-line mr-2"></i>
+                    (+212) 645-678-908
+                </span>
+            </div>
+            <div class="flex items-center space-x-4 text-black text-lg">
+                <a href="#" class="hover:text-white"><i class="ri-facebook-fill"></i></a>
+                <a href="#" class="hover:text-white"><i class="ri-twitter-fill"></i></a>
+                <a href="#" class="hover:text-white"><i class="ri-instagram-line"></i></a>
+                <a href="#" class="hover:text-white"><i class="ri-youtube-fill"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <nav class="container mx-auto md:px-12 py-2 md:px-0 px-4">
+        <div class="flex justify-between items-center">
+            <div class="flex items-center">
+                <a href="home" class="text-2xl font-bold">
+                    <img src="{{ base_url }}assets/images/logo-white.svg" alt="logo">
+                </a>
+            </div>
+
+            <div class="hidden md:flex items-center space-x-8 text-md">
+            <a href="/YouEvent/" class="{% if current_page == 'home' %}text-orange-400 font-medium{% else %}font-medium{% endif %}">Accueil</a>
+                <a href="/YouEvent/evenement" class="{% if current_page == 'evenement' %}text-orange-400 font-medium{% else %}font-medium{% endif %}">Événements</a>
+                <a href="/YouEvent/a-propos" class="{% if current_page == 'a-propos' %}text-orange-400 font-medium{% else %}font-medium{% endif %}">À propos</a>
+                <a href="/YouEvent/contact" class="{% if current_page == 'contact' %}text-orange-400 font-medium{% else %}font-medium{% endif %}">Contactez-nous</a>
+            </div>
+
+            <div class="md:flex items-center space-x-4">
+                <a href="/YouEvent/login">
+                    <button class="hidden md:block border border-orange-400 text-orange-400 px-6 py-2 rounded-xl hover:bg-orange-400 hover:text-white transition-colors">
+                        Connexion
+                    </button>
+                </a>
+                <a href="/YouEvent/register">
+                    <button class="hidden md:block border border-white text-white px-6 py-2 rounded-xl hover:bg-white hover:text-black transition-colors">
+                        S'inscrire
+                    </button>
+                </a>
+                <button id="mobile-menu-button" class="text-2xl md:hidden">
+                    <i class="ri-menu-line"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile menu -->
+        <div id="mobile-menu" class="mobile-menu fixed top-0 left-0 h-full w-64 bg-black md:hidden z-50">
+            <div class="p-4">
+                <button id="close-menu" class="text-2xl mb-4">
+                    <i class="ri-close-line"></i>
+                </button>
+                <div class="flex flex-col space-y-4">
+                    <a href="home" class="{% if current_page == 'home' %}text-orange-400 font-medium{% else %}font-medium{% endif %}">Accueil</a>
+                    <a href="evenement" class="{% if current_page == 'evenement' %}text-orange-400 font-medium{% else %}font-medium{% endif %}">Événements</a>
+                    <a href="a-propos" class="{% if current_page == 'a-propos' %}text-orange-400 font-medium{% else %}font-medium{% endif %}">À propos</a>
+                    <a href="contact" class="{% if current_page == 'contact' %}text-orange-400 font-medium{% else %}font-medium{% endif %}">Contactez-nous</a>
+                    <a href="login" class="font-medium">Connexion</a>
+                    <a href="register" class="font-medium">S'inscrire</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>

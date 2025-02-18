@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Détails de l'événement</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+        <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+
+
+</head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+
+<body class="bg-gray-50">
+    <!-- Navbar Placeholder -->
+            {% include 'partials/navbar.html.twig' %}
+
+
+    <!-- Hero Section with Parallax Effect -->
+    <div class="relative h-[500px] md:h-[600px] overflow-hidden">
+        <div class="absolute inset-0 transform hover:scale-105 transition-transform duration-700">
+            <img src="{{ base_url }}assets/images/uploads/covers/{{ evenements.intro }}" alt="Event Cover" class="w-full h-full object-cover">
+            <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/70"></div>
+        </div>
+        
+        <div class="absolute inset-0 flex items-end">
+            <div class="w-full p-6 md:p-12 space-y-4" data-aos="fade-up">
+                <div class="max-w-7xl mx-auto">
+                    <div class="flex flex-wrap gap-3 mb-4">
+                        <span class="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-orange-500 text-white transform hover:scale-105 transition-transform cursor-pointer">
+                            🎵 Musique
+                        </span>
+                        <span class="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-purple-500 text-white transform hover:scale-105 transition-transform cursor-pointer">
+                            🎉 Festival
+                        </span>
+                    </div>
+                    <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 leading-tight">
+                        {{ evenements.titre }}
+                    </h1>
+                    <div class="flex flex-wrap gap-6 text-white text-lg">
+                        <div class="flex items-center group">
+                            <svg class="h-6 w-6 mr-3 group-hover:text-orange-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+                            <span class="group-hover:text-orange-400 transition-colors">{{ evenements.date }}</span>
+                        </div>
+                        <div class="flex items-center group">
+                            <svg class="h-6 w-6 mr-3 group-hover:text-orange-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                            </svg>
+                            <span class="group-hover:text-orange-400 transition-colors">{{ evenements.lieu }}, {{ evenements.ville }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Left Column - Event Details -->
+            <div class="lg:col-span-2 space-y-8">
+                <!-- Quick Stats -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4" data-aos="fade-up">
+                    <div class="bg-white rounded-xl p-6 text-center shadow-sm hover:shadow-md transition-shadow">
+                        <div class="text-3xl font-bold text-orange-500 mb-2">4h</div>
+                        <div class="text-gray-600">De spectacle</div>
+                    </div>
+                    <div class="bg-white rounded-xl p-6 text-center shadow-sm hover:shadow-md transition-shadow">
+                        <div class="text-3xl font-bold text-orange-500 mb-2">5+</div>
+                        <div class="text-gray-600">Artistes</div>
+                    </div>
+                    <div class="bg-white rounded-xl p-6 text-center shadow-sm hover:shadow-md transition-shadow">
+                        <div class="text-3xl font-bold text-orange-500 mb-2">500</div>
+                        <div class="text-gray-600">Places VIP</div>
+                    </div>
+                    <div class="bg-white rounded-xl p-6 text-center shadow-sm hover:shadow-md transition-shadow">
+                        <div class="text-3xl font-bold text-orange-500 mb-2">2K+</div>
+                        <div class="text-gray-600">Participants</div>
+                    </div>
+                </div>
+
+                <!-- About Section -->
+                <div class="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow p-8" data-aos="fade-up">
+                    <h2 class="text-3xl font-bold text-gray-900 mb-6">À propos de l'événement</h2>
+                    <div class="prose prose-lg text-gray-600 max-w-none">
+                        {{ evenements.description }}
+                    </div>
+                    
+                    <div class="border-t border-gray-100 pt-6 mt-6">
+                        <h3 class="text-xl font-semibold text-gray-900 mb-4">Ce qui vous attend :</h3>
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <div class="flex items-start p-4 bg-orange-50 rounded-lg group hover:bg-orange-100 transition-colors">
+                                <svg class="h-6 w-6 text-orange-500 mr-3 flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                </svg>
+                                <div>
+                                    <h4 class="font-medium text-gray-900 mb-1">Performances Live</h4>
+                                    <p class="text-gray-600">4 heures de musique live avec des artistes internationaux</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start p-4 bg-purple-50 rounded-lg group hover:bg-purple-100 transition-colors">
+                                <svg class="h-6 w-6 text-purple-500 mr-3 flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                </svg>
+                                <div>
+                                    <h4 class="font-medium text-gray-900 mb-1">Expérience VIP</h4>
+                                    <p class="text-gray-600">Accès au buffet gastronomique et zone réservée</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Gallery Section -->
+                <div class="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow p-8" data-aos="fade-up">
+                    <h2 class="text-3xl font-bold text-gray-900 mb-6">Galerie</h2>
+                    <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                        <div class="aspect-w-16 aspect-h-9 rounded-lg overflow-hidden group">
+                            <img src="{{ base_url }}assets/images/uploads/covers/{{ evenements.intro }}" alt="Gallery 1" 
+                                class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500">
+                        </div>
+                        <div class="aspect-w-16 aspect-h-9 rounded-lg overflow-hidden group">
+                            <img src="{{ base_url }}assets/images/uploads/covers/{{ evenements.intro }}" alt="Gallery 2" 
+                                class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500">
+                        </div>
+                        <div class="aspect-w-16 aspect-h-9 rounded-lg overflow-hidden group">
+                            <img src="{{ base_url }}assets/images/uploads/covers/{{ evenements.intro }}" alt="Gallery 3" 
+                                class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column - Ticket Types -->
+            <div class="space-y-6" data-aos="fade-left">
+                <!-- Timer Section -->
+                <div class="bg-gradient-to-br from-orange-500 to-red-600 rounded-xl shadow-lg p-6 text-white">
+                    <h3 class="text-xl font-bold mb-4">Temps restant</h3>
+                    <div class="grid grid-cols-4 gap-2 text-center">
+                        <div class="bg-white/20 rounded-lg p-2">
+                            <div class="text-2xl font-bold" id="days">00</div>
+                            <div class="text-sm">Jours</div>
+                        </div>
+                        <div class="bg-white/20 rounded-lg p-2">
+                            <div class="text-2xl font-bold" id="hours">00</div>
+                            <div class="text-sm">Heures</div>
+                        </div>
+                        <div class="bg-white/20 rounded-lg p-2">
+                            <div class="text-2xl font-bold" id="minutes">00</div>
+                            <div class="text-sm">Minutes</div>
+                        </div>
+                        <div class="bg-white/20 rounded-lg p-2">
+                            <div class="text-2xl font-bold" id="seconds">00</div>
+                            <div class="text-sm">Secondes</div>
+                        </div>
+                    </div>
+                </div>
+                    
+                <!-- Early Bird Ticket -->
+                <div class="bg-gradient-to-br from-blue-50 to-white rounded-xl shadow-sm p-6 border border-blue-100 transform hover:-translate-y-1 transition-transform">
+                    <div class="absolute top-4 right-4">
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                            Early Bird
+                        </span>
+                    </div>
+                    <div class="flex flex-col mb-4">
+                        <h3 class="text-2xl font-bold text-gray-900">Pass Standard</h3>
+                        <p class="text-3xl font-bold text-blue-600 mt-2">{{ payantTicket.prix }} MAD</p>
+                        
+                    </div>
+                    <ul class="space-y-3 mb-6">
+                        <li class="flex items-center text-gray-600">
+                            <svg class="h-5 w-5 text-blue-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                            </svg>
+                            Accès à l'événement
+                        </li>
+                    </ul>
+                    <button class="w-full bg-blue-600 text-white py-4 rounded-lg font-medium hover:bg-blue-700 transition-colors transform hover:scale-105" onclick="handleEventClick('{{ event.idevent }}')">
+                        Réserver maintenant
+                    </button>
+                </div>
+
+    
+            </div>
+        </div>
+    </div>
+
+        <!-- Reservation Modal -->
+    <div id="reservationModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 hidden">
+        <div class="min-h-screen px-4 text-center">
+            <div class="fixed inset-0 transition-opacity" aria-hidden="true">
+                <div class="absolute inset-0 bg-black/50"></div>
+            </div>
+
+            <!-- Modal container -->
+            <div class="inline-block w-full max-w-2xl p-6 my-8 text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
+                <div class="relative">
+                    <!-- Header -->
+                    <div class="border-b border-gray-200 pb-4">
+                        <h3 class="text-2xl font-bold text-gray-900">Réservation de billets</h3>
+                        <button onclick="closeModal()" class="absolute top-0 right-0 text-gray-400 hover:text-gray-500">
+                            <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                            </svg>
+                        </button>
+                    </div>
+
+                    <!-- Event Info -->
+                    <div class="py-4 border-b border-gray-200 bg-orange-50 rounded-lg mt-4">
+                        <div class="flex gap-4">
+                            <img src="{{ base_url }}assets/images/uploads/covers/{{ evenements.intro }}" alt="Event" class="w-28 h-28 rounded-lg object-cover">
+                            <div>
+                                <h4 class="text-xl font-semibold text-gray-900">Festival de Musique 2024</h4>
+                                <div class="flex items-center text-gray-600 mt-2">
+                                    <svg class="w-5 h-5 text-orange-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                                    </svg>
+                                    <span>25 Mars 2024 - 20:00</span>
+                                </div>
+                                <div class="flex items-center text-gray-600 mt-1">
+                                    <svg class="w-5 h-5 text-orange-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                    </svg>
+                                    <span>Théâtre Mohammed V, Rabat</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Ticket Selection -->
+                    <div class="py-4 space-y-4">
+                        <div class="flex items-center justify-between p-4 border border-gray-200 rounded-xl hover:border-orange-200 transition-colors">
+                            <div>
+                                <h4 class="font-semibold text-gray-900">Billet Standard</h4>
+                                <p class="text-sm text-gray-600">Accès général à l'événement</p>
+                            </div>
+                            <div class="flex items-center gap-4">
+                                <span class="text-xl font-bold text-orange-500">250 MAD</span>
+                                <div class="flex items-center border border-gray-200 rounded-lg">
+                                    <button class="px-3 py-1 text-gray-600 hover:bg-gray-100 rounded-l-lg" onclick="updateQuantity('standard', -1)">-</button>
+                                    <input type="number" id="standardQuantity" class="w-12 text-center border-x border-gray-200 py-1" value="0" min="0" max="10">
+                                    <button class="px-3 py-1 text-gray-600 hover:bg-gray-100 rounded-r-lg" onclick="updateQuantity('standard', 1)">+</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center justify-between p-4 border border-gray-200 rounded-xl hover:border-orange-200 transition-colors">
+                            <div>
+                                <h4 class="font-semibold text-gray-900">Billet VIP</h4>
+                                <p class="text-sm text-gray-600">Accès premium + cocktail</p>
+                            </div>
+                            <div class="flex items-center gap-4">
+                                <span class="text-xl font-bold text-orange-500">500 MAD</span>
+                                <div class="flex items-center border border-gray-200 rounded-lg">
+                                    <button class="px-3 py-1 text-gray-600 hover:bg-gray-100 rounded-l-lg" onclick="updateQuantity('vip', -1)">-</button>
+                                    <input type="number" id="vipQuantity" class="w-12 text-center border-x border-gray-200 py-1" value="0" min="0" max="10">
+                                    <button class="px-3 py-1 text-gray-600 hover:bg-gray-100 rounded-r-lg" onclick="updateQuantity('vip', 1)">+</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Footer with Total -->
+                    <div class="border-t border-gray-200 mt-6 pt-4">
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-gray-600">Total</span>
+                            <span id="totalPrice" class="text-2xl font-bold text-orange-500">0 MAD</span>
+                        </div>
+                        <button onclick="confirmReservation()" class="w-full bg-orange-500 text-white py-3 px-6 rounded-xl font-semibold hover:bg-orange-600 transition-colors">
+                            Confirmer la réservation
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+ 
+
+    <!-- Footer Placeholder -->
+    <div id="footer"></div>
+
+   <script>
+        // Initialize AOS
+        AOS.init({
+            duration: 800,
+            once: true
+        });
+
+       
+
+        // Modal functionality
+        function openModal() {
+            document.getElementById('reservationModal').classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('reservationModal').classList.add('hidden');
+        }
+
+        // Initialize ticket quantities
+        let quantities = {
+            standard: 0,
+            vip: 0
+        };
+
+        const PRICES = {
+            standard: 250,
+            vip: 500
+        };
+
+        function updateQuantity(type, change) {
+            const input = document.getElementById(`${type}Quantity`);
+            const newValue = Math.max(0, Math.min(10, parseInt(input.value) + change));
+            input.value = newValue;
+            quantities[type] = newValue;
+            updateTotal();
+        }
+
+        function updateTotal() {
+            const total = (quantities.standard * PRICES.standard) + (quantities.vip * PRICES.vip);
+            document.getElementById('totalPrice').textContent = `${total} MAD`;
+        }
+
+        function confirmReservation() {
+            // Add reservation logic here
+            closeModal();
+            alert('Réservation confirmée !');
+        }
+
+        // Add event listeners to reservation buttons
+        document.querySelectorAll('button').forEach(button => {
+            if (button.textContent.trim() === 'Réserver maintenant') {
+                button.addEventListener('click', openModal);
+            }
+        });
+    </script>
+
+<script>
+    function updateTimer() {
+        const eventDate = new Date("{{ evenements.date }}").getTime();
+        const now = new Date().getTime();
+        const distance = eventDate - now;
+
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        // Display the countdown
+        document.getElementById("days").innerHTML = days.toString().padStart(2, '0');
+        document.getElementById("hours").innerHTML = hours.toString().padStart(2, '0');
+        document.getElementById("minutes").innerHTML = minutes.toString().padStart(2, '0');
+        document.getElementById("seconds").innerHTML = seconds.toString().padStart(2, '0');
+    }
+
+    setInterval(updateTimer, 1000);
+    updateTimer();
+</script>
+
+    <script>
+        // Initialize AOS
+        AOS.init({
+            duration: 800,
+            once: true
+        });
+
+        
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+
+           <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                // Show the login modal if the session flag is set
+                {% if showLoginModal %}
+                    document.getElementById('loginModal').classList.remove('hidden');
+                {% endif %}
+            });
+
+            function showLoginModal() {
+                document.getElementById('loginModal').classList.remove('hidden');
+            }
+
+            function closeLoginModal() {
+                document.getElementById('loginModal').classList.add('hidden');
+            }
+
+            function handleEventClick(eventId) {
+                {% if showLoginModal %}
+                    showLoginModal();
+                {% else %}
+                    window.location.href = 'evenement/details/' + eventId;
+                {% endif %}
+            }
+        </script>
+</body>
+</html>

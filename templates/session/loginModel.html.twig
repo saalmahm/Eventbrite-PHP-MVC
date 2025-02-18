@@ -1,0 +1,42 @@
+<div id="loginModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center hidden justify-center">
+    <div class="bg-white rounded-2xl max-w-md w-full mx-4 p-6 text-center">
+        <h2 class="text-2xl font-bold text-gray-900 mb-4">Connexion requise</h2>
+        <p class="text-gray-600 mb-6">Veuillez vous connecter pour accéder à cette fonctionnalité.</p>
+        <a href="login">
+            <button class="w-full bg-orange-500 text-white py-3 rounded-xl font-medium hover:bg-orange-600 transition-colors mb-4">
+                Se connecter
+            </button>
+        </a>
+        <button id="closeModel" class="w-full bg-gray-100 text-gray-700 py-3 rounded-xl font-medium hover:bg-gray-200 transition-colors">
+            Annuler
+        </button>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        let modalClosedByUser = false; // Track if the user closed the modal
+        const loginModal = document.getElementById('loginModal');
+        const closeButton = document.getElementById('closeModel');
+
+        // Function to show modal if needed (only if user is not logged in)
+        function showLoginModalIfNeeded() {
+            if ("{{ showLoginModal ? 'true' : 'false' }}" === 'true' && !modalClosedByUser) {
+                loginModal.classList.remove('hidden');
+            }
+        }
+
+        function closeLoginModal() {
+            loginModal.classList.add('hidden');
+            modalClosedByUser = true;
+
+            setTimeout(() => {
+                modalClosedByUser = false;
+            }, 120000); 
+        }
+
+        closeButton.addEventListener("click", closeLoginModal);
+
+        setInterval(showLoginModalIfNeeded, 4000); 
+    });
+</script>
