@@ -142,7 +142,7 @@
             <main class="flex-1 overflow-y-auto bg-gray-50 p-4 sm:p-6">
                 <div class="max-w-7xl mx-auto">
 
-                    <form>
+                    <form action="" method="POST" enctype="multipart/form-data">
                         <div class="space-y-6">
                             <div class="">
                                 <label for="title" class="block text-md font-medium text-gray-700 ">Titre de
@@ -170,13 +170,7 @@
                                     l'événement</label>
                                 <div class="border border-dashed border-orange-400 rounded-md p-4">
                                     <label class="custom-file-upload flex justify-center items-center rounded-md">
-                                        <input type="file" id="image" name="image" class="hidden" required> 
-                                        <div class="text-center py-8">
-                                            <i class="ri-upload-cloud-line text-4xl text-orange-400 mb-2"></i>
-                                            <p class="text-sm text-gray-600">Cliquez pour télécharger ou glissez-déposez
-                                            </p>
-                                            <p class="text-xs text-gray-500 mt-1">PNG, JPG, GIF jusqu'à 10MB</p>
-                                        </div>
+                                       <input type="file" name="image" required> 
                                     </label>
                                 </div>
                             </div>
@@ -284,7 +278,7 @@
                             </div>
 
                             <div class="flex justify-end">
-                                <button type="submit"
+                                <button type="submit" name="addEvent"
                                     class="px-6 py-3 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors flex items-center text-sm font-medium">
                                     <i class="ri-add-line mr-2"></i>
                                     Créer l'Événement

@@ -17,10 +17,15 @@ $router->get('/evenement', [EvenementController::class, 'showEvenement']);
 $router->get('/contact', [UserController::class, 'showContact']);
 $router->get('/a-propos', [UserController::class, 'showAbout']);
 $router->get('/evenement/details/{id}', [EvenementController::class, 'showDetails']);
+$router->get('/dashboard/addEvent', [UserController::class,'showAddEvent']);
+$router->get('/dashboard', [UserController::class,'showDashboard']);
+
 
 // POST routes
 $router->post('/register', [UserController::class, 'registerUser']);
 $router->post('/login', [UserController::class, 'loginUser']);
+$router->post('/evenement/details/{id}', [UserController::class, 'loginUser']);
+$router->post('/dashboard/addEvent/', [UserController::class,'addEvent'] );
 
 
 
