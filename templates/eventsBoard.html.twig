@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="fr">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Tableau de Bord | YouEvent</title>
+		 <script src="https://cdn.tailwindcss.com"></script>
+		<link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+		 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+		 <script src="{{ base_url }}/assets/js/dashbord.js" defer></script>
+
+
+			<style>
+.sidebar-collapsed {
+	width: 5rem;
+}
+.sidebar-expanded {
+	width: 16rem;
+}
+.transition-width {
+	transition: width 0.3s ease-in-out;
+}
+.sidebar-collapsed .nav-text {
+	display: none;
+}
+.sidebar-collapsed .logo-full {
+	display: none;
+}
+.sidebar-expanded .logo-icon {
+	display: none;
+}
+@media(max-width: 768px) {
+	.sidebar-expanded {
+		position: fixed;
+		z-index: 50;
+		height: 100vh;
+	}
+	.sidebar-collapsed {
+		width: 0;
+		overflow: hidden;
+	}
+}
+	</style>
+	</head>
+		<body class="bg-gray-50"> <div
+			class="flex h-screen">
+			<!-- Sidebar -->
+			<aside id="sidebar" class="sidebar-expanded transition-width bg-white border-r border-gray-200 flex flex-col shadow-lg">
+				<div class="p-4 border-b border-gray-200 flex justify-between items-center">
+					<img src="../public/assets/images/logo.svg" alt="YouEvent Logo" class="h-12 logo-full">
+					<img src="../public/assets/images/logo.svg" alt="YouEvent" class="h-12 logo-icon hidden">
+					<button id="toggleSidebar" class="p-2 rounded-lg hover:bg-gray-100 text-gray-500">
+						<i class="ri-arrow-left-s-line"></i>
+						<i class="ri-sidebar-fold-line"></i>
+						<i class="ri-sidebar-fold-line text-black bg-red-600"></i>
+					</button>
+				</div>
+				<nav class="flex-1 overflow-y-auto py-4">
+					<ul class="space-y-2 px-3">
+						<li>
+							<a href="dashbord" class="flex items-center px-4 py-3 text-gray-700 bg-gray-50 rounded-lg group">
+								<i class="ri-dashboard-line text-xl"></i>
+								<span class="ml-3 nav-text">Tableau de bord</span>
+							</a>
+						</li>
+						<li>
+							<a href="evenements" class="flex items-center px-4 py-3 text-orange-500 bg-orange-50 rounded-lg group">
+								<i class="ri-calendar-event-line text-xl"></i>
+								<span class="ml-3 nav-text">Événements</span>
+							</a>
+						</li>
+						<li>
+							<a href="promotion" class="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-50 rounded-lg group">
+								<i class="ri-megaphone-line text-xl"></i>
+								<span class="ml-3 nav-text">Promotion</span>
+							</a>
+						</li>
+						<li>
+							<a href="contacts" class="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-50 rounded-lg group">
+								<i class="ri-contacts-book-line text-xl"></i>
+								<span class="ml-3 nav-text">Liste de contacts</span>
+							</a>
+						</li>
+
+						<li>
+							<a href="#" class="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-50 rounded-lg group">
+								<i class="ri-file-chart-line text-xl"></i>
+								<span class="ml-3 nav-text">Rapports</span>
+							</a>
+						</li>
+
+					</ul>
+				</nav>
+				<div class="p-4 border-t border-gray-200">
+					<div class="flex items-center">
+						<img src="../public/assets/images/profil/avatar.svg" alt="Profile" class="w-8 h-8 rounded-full">
+						<div class="ml-3 nav-text">
+							<p class="text-sm font-medium text-gray-700">Jean Dupont</p>
+							<p class="text-xs text-gray-500">Organisateur</p>
+						</div>
+					</div>
+				</div>
+			</aside>
+
+			<!-- Main Content -->
+			<div class="flex-1 flex flex-col overflow-hidden">
+				<header class="bg-white border-b border-gray-200 shadow-sm">
+					<div class="flex items-center justify-between px-4 py-4 sm:px-6">
+						<div class="flex items-center">
+							<button id="mobileMenuBtn" class="mr-2 text-gray-500 hover:text-gray-600 focus:outline-none focus:text-gray-600 md:hidden">
+								<i class="ri-menu-line text-2xl"></i>
+							</button>
+							<div class="flex items-center space-x-4">
+								<a href="addEvent">
+									<button class="bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-600 transition-colors flex items-center text-sm">
+										<i class="ri-add-line mr-2"></i>
+										<span class="hidden sm:inline">Créer un Événement</span>
+									</button>
+								</a>
+							</div>
+						</div>
+						<div class="flex items-center space-x-4">
+
+							<button class="p-2 hover:bg-orange-400 rounded-full">
+								<i class="ri-notification-3-line text-xl text-gray-600 hover:text-white"></i>
+							</button>
+							<button class="p-2 hover:bg-orange-400 rounded-full">
+								<i class="ri-settings-4-line text-xl text-gray-600 hover:text-white"></i>
+							</button>
+						</div>
+					</div>
+				</header>
+
+				<!-- Dashboard -->
+				<main class="flex-1 overflow-y-auto bg-gray-50 p-4 sm:p-6">
+					<div class="max-w-7xl mx-auto mb-6">
+						<div class="">
+							<div class="flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-4">
+								<div class="relative flex-1">
+									<i class="ri-search-line absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+									<input type="text" placeholder="Rechercher par nom d'événement, statut" class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500">
+								</div>
+								<div class="flex gap-2">
+									<button class="tab active p-4 rounded-xl py-2 text-sm font-medium">
+										Tous (1)
+									</button>
+									<button class="tab px-4 py-2 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-100">
+										En ligne (0)
+									</button>
+									<button class="tab px-4 py-2 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-100">
+										Sur place (1)
+									</button>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 pt-2">
+						<div class="group bg-white rounded-xl border border-gray-200 overflow-hidden transition-all duration-300 hover:shadow-lg hover:border-orange-400 hover:scale-[1.02]">
+							<div
+								class="flex flex-col h-full">
+								<div class="relative h-48 overflow-hidden">
+									<img src="../public/assets/images/uploads/covers/cover-2.jpg" alt="Canvas Painting Tutorial" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110">
+									<div class="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
+								</div>
+
+								<div
+									class="p-4 flex flex-col gap-3">
+
+									<div class="flex justify-between items-start">
+										<h3 class="text-base font-semibold text-gray-900 group-hover:text-orange-400 transition-colors line-clamp-2">
+											Tutorial on Canvas Painting
+										</h3>
+										<div class="relative">
+                                            
+											<button class="p-2 rounded-lg text-gray-600 hover:bg-gray-100 transition-colors" onclick="toggleMenu(this)">
+												<i class="ri-more-2-fill"></i>
+											</button>
+											<div class="hidden absolute right-0 mt-1 w-36 bg-white rounded-lg shadow-lg border border-gray-100 z-10">
+												<a href="#" class="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-orange-50 hover:text-orange-400 transition-colors">
+													<i class="ri-eye-line"></i>
+													Prévisualiser
+												</a>
+                                                <a href="#" class="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-orange-50 hover:text-orange-400 transition-colors">
+													<i class="ri-edit-line"></i>
+													Modifier
+												</a>
+												<a href="#" class="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-orange-50 hover:text-orange-400 transition-colors">
+													<i class="ri-delete-bin-line"></i>
+												    Supprimer
+												</a>
+											</div>
+										</div>
+									</div>
+
+									<div class="space-y-2">
+										<div class="flex items-center text-sm text-gray-600">
+											<span class="w-2 h-2 rounded-full bg-green-500 mr-2"></span>
+											Published
+										</div>
+										<div class="flex items-center text-sm text-gray-600 gap-2">
+											<i class="ri-calendar-line"></i>
+											<span>30 June, 2024</span>
+										</div>
+										<div class="flex items-center justify-between text-sm text-gray-600">
+											<div class="flex items-center gap-2">
+												<i class="ri-ticket-line"></i>
+												<span>250 seats</span>
+											</div>
+											<div class="flex items-center gap-2">
+												<i class="ri-shopping-bag-line"></i>
+												<span>20 sold</span>
+											</div>
+										</div>
+									</div>
+
+								</div>
+							</div>
+						</div>
+
+						<!-- Card 2 -->
+						<div class="group bg-white rounded-xl pb-6 border border-gray-200 overflow-hidden transition-all duration-300 hover:shadow-lg hover:border-orange-400 hover:scale-[1.02]">
+							<div class="flex flex-col h-full">
+								<div class="relative h-48 overflow-hidden">
+									<img src="../public/assets/images/uploads/covers/cover-1.jpg" alt="Jazz Concert" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110">
+									<div class="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
+								</div>
+
+								<div class="p-4 flex flex-col gap-3">
+									<div class="flex justify-between items-start">
+										<h3 class="text-base font-semibold text-gray-900 group-hover:text-orange-400 transition-colors line-clamp-2">
+											Concert Jazz Fusion
+										</h3>
+										<div class="relative">
+											<button class="p-2 rounded-lg text-gray-600 hover:bg-gray-100 transition-colors" onclick="toggleMenu(this)">
+												<i class="ri-more-2-fill"></i>
+											</button>
+											<div class="hidden absolute right-0 mt-1 w-36 bg-white rounded-lg shadow-lg border border-gray-100 z-10">
+												<a href="#" class="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-orange-50 hover:text-orange-400 transition-colors">
+													<i class="ri-eye-line"></i>
+													Prévisualiser
+												</a>
+                                                <a href="#" class="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-orange-50 hover:text-orange-400 transition-colors">
+													<i class="ri-edit-line"></i>
+													Modifier
+												</a>
+												<a href="#" class="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-orange-50 hover:text-orange-400 transition-colors">
+													<i class="ri-delete-bin-line"></i>
+												    Supprimer
+												</a>
+											</div>
+										</div>
+									</div>
+
+									<div class="space-y-2">
+										<div class="flex items-center text-sm text-gray-600">
+											<span class="w-2 h-2 rounded-full bg-yellow-500 mr-2"></span>
+											Draft
+										</div>
+										<div class="flex items-center text-sm text-gray-600 gap-2">
+											<i class="ri-calendar-line"></i>
+											<span>15 July, 2024</span>
+										</div>
+										<div class="flex items-center justify-between text-sm text-gray-600">
+											<div class="flex items-center gap-2">
+												<i class="ri-ticket-line"></i>
+												<span>500 seats</span>
+											</div>
+											<div class="flex items-center gap-2">
+												<i class="ri-shopping-bag-line"></i>
+												<span>0 sold</span>
+											</div>
+										</div>
+									</div>
+
+								</div>
+							</div>
+						</div>
+
+                        <!-- Card 3 -->
+						<div class="group bg-white rounded-xl pb-6 border border-gray-200 overflow-hidden transition-all duration-300 hover:shadow-lg hover:border-orange-400 hover:scale-[1.02]">
+							<div class="flex flex-col h-full">
+								<div class="relative h-48 overflow-hidden">
+									<img src="../public/assets/images/uploads/covers/cover-2.jpg" alt="Jazz Concert" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110">
+									<div class="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
+								</div>
+
+								<div class="p-4 flex flex-col gap-3">
+									<div class="flex justify-between items-start">
+										<h3 class="text-base font-semibold text-gray-900 group-hover:text-orange-400 transition-colors line-clamp-2">
+											Concert Jazz Fusion
+										</h3>
+										<div class="relative">
+											<button class="p-2 rounded-lg text-gray-600 hover:bg-gray-100 transition-colors" onclick="toggleMenu(this)">
+												<i class="ri-more-2-fill"></i>
+											</button>
+											<div class="hidden absolute right-0 mt-1 w-36 bg-white rounded-lg shadow-lg border border-gray-100 z-10">
+												<a href="#" class="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-orange-50 hover:text-orange-400 transition-colors">
+													<i class="ri-eye-line"></i>
+													Prévisualiser
+												</a>
+                                                <a href="#" class="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-orange-50 hover:text-orange-400 transition-colors">
+													<i class="ri-edit-line"></i>
+													Modifier
+												</a>
+												<a href="#" class="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-orange-50 hover:text-orange-400 transition-colors">
+													<i class="ri-delete-bin-line"></i>
+												    Supprimer
+												</a>
+											</div>
+										</div>
+									</div>
+
+									<div class="space-y-2">
+										<div class="flex items-center text-sm text-gray-600">
+											<span class="w-2 h-2 rounded-full bg-yellow-500 mr-2"></span>
+											Draft
+										</div>
+										<div class="flex items-center text-sm text-gray-600 gap-2">
+											<i class="ri-calendar-line"></i>
+											<span>15 July, 2024</span>
+										</div>
+										<div class="flex items-center justify-between text-sm text-gray-600">
+											<div class="flex items-center gap-2">
+												<i class="ri-ticket-line"></i>
+												<span>500 seats</span>
+											</div>
+											<div class="flex items-center gap-2">
+												<i class="ri-shopping-bag-line"></i>
+												<span>0 sold</span>
+											</div>
+										</div>
+									</div>
+
+								</div>
+							</div>
+						</div>
+
+                        <!-- Card 4 -->
+						<div class="group bg-white rounded-xl pb-6 border border-gray-200 overflow-hidden transition-all duration-300 hover:shadow-lg hover:border-orange-400 hover:scale-[1.02]">
+							<div class="flex flex-col h-full">
+								<div class="relative h-48 overflow-hidden">
+									<img src="../public/assets/images/uploads/covers/cover-3.jpg" alt="Jazz Concert" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110">
+									<div class="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
+								</div>
+
+								<div class="p-4 flex flex-col gap-3">
+									<div class="flex justify-between items-start">
+										<h3 class="text-base font-semibold text-gray-900 group-hover:text-orange-400 transition-colors line-clamp-2">
+											Concert Jazz Fusion
+										</h3>
+										<div class="relative">
+											<button class="p-2 rounded-lg text-gray-600 hover:bg-gray-100 transition-colors" onclick="toggleMenu(this)">
+												<i class="ri-more-2-fill"></i>
+											</button>
+											<div class="hidden absolute right-0 mt-1 w-36 bg-white rounded-lg shadow-lg border border-gray-100 z-10">
+												<a href="#" class="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-orange-50 hover:text-orange-400 transition-colors">
+													<i class="ri-eye-line"></i>
+													Prévisualiser
+												</a>
+                                                <a href="#" class="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-orange-50 hover:text-orange-400 transition-colors">
+													<i class="ri-edit-line"></i>
+													Modifier
+												</a>
+												<a href="#" class="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-orange-50 hover:text-orange-400 transition-colors">
+													<i class="ri-delete-bin-line"></i>
+												    Supprimer
+												</a>
+											</div>
+										</div>
+									</div>
+
+									<div class="space-y-2">
+										<div class="flex items-center text-sm text-gray-600">
+											<span class="w-2 h-2 rounded-full bg-yellow-500 mr-2"></span>
+											Draft
+										</div>
+										<div class="flex items-center text-sm text-gray-600 gap-2">
+											<i class="ri-calendar-line"></i>
+											<span>15 July, 2024</span>
+										</div>
+										<div class="flex items-center justify-between text-sm text-gray-600">
+											<div class="flex items-center gap-2">
+												<i class="ri-ticket-line"></i>
+												<span>500 seats</span>
+											</div>
+											<div class="flex items-center gap-2">
+												<i class="ri-shopping-bag-line"></i>
+												<span>0 sold</span>
+											</div>
+										</div>
+									</div>
+
+								</div>
+							</div>
+						</div>
+
+                        <!-- Card 5 -->
+						<div class="group bg-white rounded-xl pb-6 border border-gray-200 overflow-hidden transition-all duration-300 hover:shadow-lg hover:border-orange-400 hover:scale-[1.02]">
+							<div class="flex flex-col h-full">
+								<div class="relative h-48 overflow-hidden">
+									<img src="../public/assets/images/uploads/covers/cover-4.jpeg" alt="Jazz Concert" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110">
+									<div class="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
+								</div>
+
+								<div class="p-4 flex flex-col gap-3">
+									<div class="flex justify-between items-start">
+										<h3 class="text-base font-semibold text-gray-900 group-hover:text-orange-400 transition-colors line-clamp-2">
+											Concert Jazz Fusion
+										</h3>
+										<div class="relative">
+											<button class="p-2 rounded-lg text-gray-600 hover:bg-gray-100 transition-colors" onclick="toggleMenu(this)">
+												<i class="ri-more-2-fill"></i>
+											</button>
+											<div class="hidden absolute right-0 mt-1 w-36 bg-white rounded-lg shadow-lg border border-gray-100 z-10">
+												<a href="#" class="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-orange-50 hover:text-orange-400 transition-colors">
+													<i class="ri-eye-line"></i>
+													Prévisualiser
+												</a>
+                                                <a href="#" class="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-orange-50 hover:text-orange-400 transition-colors">
+													<i class="ri-edit-line"></i>
+													Modifier
+												</a>
+												<a href="#" class="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-orange-50 hover:text-orange-400 transition-colors">
+													<i class="ri-delete-bin-line"></i>
+												    Supprimer
+												</a>
+											</div>
+										</div>
+									</div>
+
+									<div class="space-y-2">
+										<div class="flex items-center text-sm text-gray-600">
+											<span class="w-2 h-2 rounded-full bg-yellow-500 mr-2"></span>
+											Draft
+										</div>
+										<div class="flex items-center text-sm text-gray-600 gap-2">
+											<i class="ri-calendar-line"></i>
+											<span>15 July, 2024</span>
+										</div>
+										<div class="flex items-center justify-between text-sm text-gray-600">
+											<div class="flex items-center gap-2">
+												<i class="ri-ticket-line"></i>
+												<span>500 seats</span>
+											</div>
+											<div class="flex items-center gap-2">
+												<i class="ri-shopping-bag-line"></i>
+												<span>0 sold</span>
+											</div>
+										</div>
+									</div>
+
+								</div>
+							</div>
+						</div>
+
+                        <!-- Card 6 -->
+						<div class="group bg-white rounded-xl pb-6 border border-gray-200 overflow-hidden transition-all duration-300 hover:shadow-lg hover:border-orange-400 hover:scale-[1.02]">
+							<div class="flex flex-col h-full">
+								<div class="relative h-48 overflow-hidden">
+									<img src="../public/assets/images/uploads/covers/cover-2.jpg" alt="Jazz Concert" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110">
+									<div class="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
+								</div>
+
+								<div class="p-4 flex flex-col gap-3">
+									<div class="flex justify-between items-start">
+										<h3 class="text-base font-semibold text-gray-900 group-hover:text-orange-400 transition-colors line-clamp-2">
+											Concert Jazz Fusion
+										</h3>
+										<div class="relative">
+											<button class="p-2 rounded-lg text-gray-600 hover:bg-gray-100 transition-colors" onclick="toggleMenu(this)">
+												<i class="ri-more-2-fill"></i>
+											</button>
+											<div class="hidden absolute right-0 mt-1 w-36 bg-white rounded-lg shadow-lg border border-gray-100 z-10">
+												<a href="#" class="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-orange-50 hover:text-orange-400 transition-colors">
+													<i class="ri-eye-line"></i>
+													Prévisualiser
+												</a>
+                                                <a href="#" class="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-orange-50 hover:text-orange-400 transition-colors">
+													<i class="ri-edit-line"></i>
+													Modifier
+												</a>
+												<a href="#" class="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-orange-50 hover:text-orange-400 transition-colors">
+													<i class="ri-delete-bin-line"></i>
+												    Supprimer
+												</a>
+											</div>
+										</div>
+									</div>
+
+									<div class="space-y-2">
+										<div class="flex items-center text-sm text-gray-600">
+											<span class="w-2 h-2 rounded-full bg-yellow-500 mr-2"></span>
+											Draft
+										</div>
+										<div class="flex items-center text-sm text-gray-600 gap-2">
+											<i class="ri-calendar-line"></i>
+											<span>15 July, 2024</span>
+										</div>
+										<div class="flex items-center justify-between text-sm text-gray-600">
+											<div class="flex items-center gap-2">
+												<i class="ri-ticket-line"></i>
+												<span>500 seats</span>
+											</div>
+											<div class="flex items-center gap-2">
+												<i class="ri-shopping-bag-line"></i>
+												<span>0 sold</span>
+											</div>
+										</div>
+									</div>
+
+								</div>
+							</div>
+						</div>
+
+                        <!-- Card 7 -->
+						<div class="group bg-white rounded-xl pb-6 border border-gray-200 overflow-hidden transition-all duration-300 hover:shadow-lg hover:border-orange-400 hover:scale-[1.02]">
+							<div class="flex flex-col h-full">
+								<div class="relative h-48 overflow-hidden">
+									<img src="../public/assets/images/uploads/covers/cover-3.jpg" alt="Jazz Concert" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110">
+									<div class="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
+								</div>
+
+								<div class="p-4 flex flex-col gap-3">
+									<div class="flex justify-between items-start">
+										<h3 class="text-base font-semibold text-gray-900 group-hover:text-orange-400 transition-colors line-clamp-2">
+											Concert Jazz Fusion
+										</h3>
+										<div class="relative">
+											<button class="p-2 rounded-lg text-gray-600 hover:bg-gray-100 transition-colors" onclick="toggleMenu(this)">
+												<i class="ri-more-2-fill"></i>
+											</button>
+											<div class="hidden absolute right-0 mt-1 w-36 bg-white rounded-lg shadow-lg border border-gray-100 z-10">
+												<a href="#" class="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-orange-50 hover:text-orange-400 transition-colors">
+													<i class="ri-eye-line"></i>
+													Prévisualiser
+												</a>
+                                                <a href="#" class="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-orange-50 hover:text-orange-400 transition-colors">
+													<i class="ri-edit-line"></i>
+													Modifier
+												</a>
+												<a href="#" class="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-orange-50 hover:text-orange-400 transition-colors">
+													<i class="ri-delete-bin-line"></i>
+												    Supprimer
+												</a>
+											</div>
+										</div>
+									</div>
+
+									<div class="space-y-2">
+										<div class="flex items-center text-sm text-gray-600">
+											<span class="w-2 h-2 rounded-full bg-yellow-500 mr-2"></span>
+											Draft
+										</div>
+										<div class="flex items-center text-sm text-gray-600 gap-2">
+											<i class="ri-calendar-line"></i>
+											<span>15 July, 2024</span>
+										</div>
+										<div class="flex items-center justify-between text-sm text-gray-600">
+											<div class="flex items-center gap-2">
+												<i class="ri-ticket-line"></i>
+												<span>500 seats</span>
+											</div>
+											<div class="flex items-center gap-2">
+												<i class="ri-shopping-bag-line"></i>
+												<span>0 sold</span>
+											</div>
+										</div>
+									</div>
+
+								</div>
+							</div>
+						</div>
+
+                        <!-- Card 8 -->
+						<div class="group bg-white rounded-xl pb-6 border border-gray-200 overflow-hidden transition-all duration-300 hover:shadow-lg hover:border-orange-400 hover:scale-[1.02]">
+							<div class="flex flex-col h-full">
+								<div class="relative h-48 overflow-hidden">
+									<img src="../public/assets/images/uploads/covers/cover-4.jpeg" alt="Jazz Concert" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110">
+									<div class="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
+								</div>
+
+								<div class="p-4 flex flex-col gap-3">
+									<div class="flex justify-between items-start">
+										<h3 class="text-base font-semibold text-gray-900 group-hover:text-orange-400 transition-colors line-clamp-2">
+											Concert Jazz Fusion
+										</h3>
+										<div class="relative">
+											<button class="p-2 rounded-lg text-gray-600 hover:bg-gray-100 transition-colors" onclick="toggleMenu(this)">
+												<i class="ri-more-2-fill"></i>
+											</button>
+											<div class="hidden absolute right-0 mt-1 w-36 bg-white rounded-lg shadow-lg border border-gray-100 z-10">
+												<a href="#" class="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-orange-50 hover:text-orange-400 transition-colors">
+													<i class="ri-eye-line"></i>
+													Prévisualiser
+												</a>
+                                                <a href="#" class="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-orange-50 hover:text-orange-400 transition-colors">
+													<i class="ri-edit-line"></i>
+													Modifier
+												</a>
+												<a href="#" class="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-orange-50 hover:text-orange-400 transition-colors">
+													<i class="ri-delete-bin-line"></i>
+												    Supprimer
+												</a>
+											</div>
+										</div>
+									</div>
+
+									<div class="space-y-2">
+										<div class="flex items-center text-sm text-gray-600">
+											<span class="w-2 h-2 rounded-full bg-yellow-500 mr-2"></span>
+											Draft
+										</div>
+										<div class="flex items-center text-sm text-gray-600 gap-2">
+											<i class="ri-calendar-line"></i>
+											<span>15 July, 2024</span>
+										</div>
+										<div class="flex items-center justify-between text-sm text-gray-600">
+											<div class="flex items-center gap-2">
+												<i class="ri-ticket-line"></i>
+												<span>500 seats</span>
+											</div>
+											<div class="flex items-center gap-2">
+												<i class="ri-shopping-bag-line"></i>
+												<span>0 sold</span>
+											</div>
+										</div>
+									</div>
+
+								</div>
+							</div>
+						</div>
+
+
+					</div>
+				</div>
+			</div>
+	</body>
+        <script>
+        function toggleMenu(button) {
+            const dropdown = button.nextElementSibling;
+            dropdown.classList.toggle('hidden');
+
+            // Close other open menus
+            document.querySelectorAll('.relative .hidden').forEach(menu => {
+                if (menu !== dropdown) {
+                    menu.classList.add('hidden');
+                }
+            });
+        }
+
+        // Close menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.relative')) {
+                document.querySelectorAll('.relative .hidden').forEach(menu => {
+                    menu.classList.add('hidden');
+                });
+            }
+        });
+    </script>
+</html>
